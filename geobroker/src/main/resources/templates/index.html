@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>GeoBroker</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div>
+    <h2>Server up and running.</h2>
+
+    <p>
+        This server provides a REST endpoint for position updates. This welcome page only indicates a running server.
+    </p>
+
+    <p th:text="'Current version: ' + ${version}"></p>
+</div>
+</body>
+</html>
