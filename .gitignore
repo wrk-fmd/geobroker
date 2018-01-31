@@ -10,6 +10,9 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+# private maven cache
+.m2
+
 # Package Files #
 *.jar
 *.war

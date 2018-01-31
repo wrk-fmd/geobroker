@@ -1,0 +1,9 @@
+#!/bin/sh
+BASE=$(dirname $(dirname $(readlink -en $0)))
+
+# Need to run a local reverse proxy to map local :8080-requests to external.
+# Use the reverse proxy to also restrict requests to the public api.
+# Will re-deploy automatically after ./build_war.
+docker run -it --rm \
+	-p 127.0.0.1:8080:8080 \
+	-v "$BASE/geobroker/target/:/usr/local/tomcat/webapps/" tomcat:alpine
