@@ -1,0 +1,44 @@
+openapi: "3.0.0"
+info:
+  title: Geobroker
+  description: |
+    The geobroker API actually provides two APIs - private and public.
+
+    The private API provides CRUD operations for geo objects.
+    Geo objects might contain sensitive information that is not available on the public API.
+
+    The public API allows position updates via a token (secret) that identifies a geo object.
+    The output on the public API is restricted in two ways:
+      - a unit may only see some objects as set via the private API
+      - individual objects only share public properties (last position, style, friendly name),
+        they are called dots
+  version: v1
+  license:
+    name: MIT
+servers:
+  - url: /api/v1
+paths:
+  /private/objects:
+    get:
+      operationId: getAllObjects
+      summary: Get all objects (units, incidents, ...) in the broker.
+      responses:
+      '200':
+        description: list of geo object with all properties
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+              $ref: '#/components/schemas/object'
+components:
+  schemas:
+    object:
+      allOf:
+        - $ref: '#/components/schemas/dot'
+    dot:
+      required:
+        - token
+      properties:
+        token:
+          type: string
