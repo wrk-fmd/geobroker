@@ -23,22 +23,83 @@ paths:
       operationId: getAllObjects
       summary: Get all objects (units, incidents, ...) in the broker.
       responses:
-      '200':
-        description: list of geo object with all properties
+        '200':
+          description: list of geo object with all properties
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/object'
+    post:
+      operationId: createNewObject
+      summary: Create a new object in the broker.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/object'
+  /private/objects/{token}:
+    put:
+      operationId: updateObject
+      summary: Update an existing object in the broker.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/object'
+  /public/position/{token}:
+    post:
+      operationId: updatePosition
+      summary: Updates a units position.
+      requestBody:
         content:
           application/json:
             schema:
-              type: array
-              items:
-              $ref: '#/components/schemas/object'
+              $ref: '#/components/schemas/position'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/dot'
 components:
   schemas:
     object:
       allOf:
+        - token:
+          type: string
         - $ref: '#/components/schemas/dot'
+        - sees:
+          type: array
+          items:
+            type: string
     dot:
       required:
-        - token
       properties:
-        token:
+        name:
           type: string
+        position:
+          $ref: '#/components/schemas/position'
+    position:
+      required:
+        - time
+        - lat
+        - long
+      properties:
+        time:
+          type: number
+        lat:
+          type: number
+        long:
+          type: number
+        acc:
+          type: number
+        head:
+          type: number
+        speed:
+          type: number
