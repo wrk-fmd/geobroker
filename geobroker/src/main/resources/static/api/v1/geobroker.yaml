@@ -57,6 +57,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/object'
+    delete:
+      tags: [private]
+      operationId: deleteObject
+      summary: Delete an existing object from the broker.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/object'
   /public/position/{token}:
     post:
       tags: [public]
