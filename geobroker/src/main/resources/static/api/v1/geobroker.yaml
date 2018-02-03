@@ -97,6 +97,10 @@ components:
           type: string
         position:
           $ref: '#/components/schemas/position'
+        class:
+          type: array
+          items:
+            type: string
     position:
       required:
         - time
