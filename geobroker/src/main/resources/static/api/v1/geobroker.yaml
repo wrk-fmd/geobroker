@@ -79,13 +79,17 @@ components:
   schemas:
     object:
       allOf:
-        - token:
-          type: string
+        - type: object
+          properties:
+            token:
+              type: string
         - $ref: '#/components/schemas/dot'
-        - sees:
-          type: array
-          items:
-            type: string
+        - type: object
+          properties:
+            sees:
+              type: array
+              items:
+                type: string
     dot:
       required:
       properties:
