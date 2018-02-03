@@ -3,23 +3,28 @@ info:
   title: Geobroker
   description: |
     The geobroker API actually provides two APIs - private and public.
-
-    The private API provides CRUD operations for geo objects.
-    Geo objects might contain sensitive information that is not available on the public API.
-
-    The public API allows position updates via a token (secret) that identifies a geo object.
-    The output on the public API is restricted in two ways:
-      - a unit may only see some objects as set via the private API
-      - individual objects only share public properties (last position, style, friendly name),
-        they are called dots
+    A firewall or proxy is required to grant or block access to either interface.
   version: v1
   license:
     name: MIT
 servers:
   - url: /api/v1
+tags:
+  - name: public
+    description: |
+      The public API allows position updates via a token (secret) that identifies a geo object.
+      The output on the public API is restricted in two ways:
+        - a unit may only see some objects as set via the `sees` property on the private API
+        - individual objects only share public properties (last position, style, friendly name),
+            they are called dots
+  - name: private
+    description: |
+      CRUD operations for all geo objects.
+      Geo objects might contain sensitive information that is not available on the public API.
 paths:
   /private/objects:
     get:
+      tags: [private]
       operationId: getAllObjects
       summary: Get all objects (units, incidents, ...) in the broker.
       responses:
@@ -32,6 +37,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/object'
     post:
+      tags: [private]
       operationId: createNewObject
       summary: Create a new object in the broker.
       responses:
@@ -42,6 +48,7 @@ paths:
                 $ref: '#/components/schemas/object'
   /private/objects/{token}:
     put:
+      tags: [private]
       operationId: updateObject
       summary: Update an existing object in the broker.
       responses:
@@ -52,6 +59,7 @@ paths:
                 $ref: '#/components/schemas/object'
   /public/position/{token}:
     post:
+      tags: [public]
       operationId: updatePosition
       summary: Updates a units position.
       requestBody:
