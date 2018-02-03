@@ -4,6 +4,10 @@ info:
   description: |
     The geobroker API actually provides two APIs - private and public.
     A firewall or proxy is required to grant or block access to either interface.
+
+    > **Note:** error responses are not yet designed. Expect plain text messages in the response for now.
+
+    > **Note:** descriptions for the models are not yet available. Please ask when things remained unclear.
   version: v1
   license:
     name: MIT
@@ -71,7 +75,7 @@ paths:
     post:
       tags: [public]
       operationId: updatePosition
-      summary: Updates a units position.
+      summary: Updates a unit's position.
       requestBody:
         content:
           application/json:
