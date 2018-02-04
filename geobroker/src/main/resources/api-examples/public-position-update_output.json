@@ -1,0 +1,24 @@
+{
+  "unitPositions": [
+    {
+      "unitId": "12345-random",
+      "displayName": "Vehicle Foobar",
+      // optional
+      "currentPosition": {
+        "latitudeInDegree": 48.12,
+        "longitudeInDegree": 16.0,
+        "headingInDegree": 280
+      },
+      // optional
+      "sourcePosition": {
+        "latitudeInDegree": 48.123,
+        "longitudeInDegree": 16.35
+      },
+      // optional
+      "targetPosition": {
+        "latitudeInDegree": 48.36,
+        "longitudeInDegree": 16.31
+      }
+    }
+  ]
+}

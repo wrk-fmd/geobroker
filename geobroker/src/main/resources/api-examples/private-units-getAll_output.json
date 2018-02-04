@@ -1,0 +1,27 @@
+{
+  "configuredUnits": [
+    {
+      "unitId": "12345-random",
+      "displayName": "Commanding Vehicle",
+      "unitsAllowedToSee": [
+        "435-other-unit-id",
+        "89345-unit-id",
+        "12345-random"
+      ]
+    },
+    {
+      "unitId": "435-other-unit-id",
+      "displayName": "Observing Vehicle",
+      "unitsAllowedToSee": [
+        "435-other-unit-id"
+      ]
+    },
+    {
+      "unitId": "89345-unit-id",
+      "displayName": "Private Vehicle",
+      "unitsAllowedToSee": [
+        "89345-unit-id"
+      ]
+    }
+  ]
+}
