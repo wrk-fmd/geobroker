@@ -1,0 +1,385 @@
+openapi: "3.0.0"
+info:
+  title: Geobroker
+  description: |
+    The geobroker API actually provides two APIs - private and public.
+    A firewall or proxy is required to grant or block access to either interface.
+
+    > **Note:** error responses are not yet designed. Expect plain text messages in the response for now.
+
+    > **Note:** descriptions for the models are not yet available. Please ask when things remain unclear.
+
+    > **Note:** the geobroker tracks three types of objects: units, incidents, and POIs. POIs are neither defined nor implemented yet. 
+  version: v1
+  license:
+    name: MIT
+servers:
+  - url: /api/v1
+tags:
+  - name: public
+    description: |
+      The public API allows position updates for each unit with their authentication (token).
+      The output on the public API is restricted in two ways:
+        - a unit may only see some objects as set via the `views` entities on the private API
+        - individual objects only share public properties (last position, style, friendly name)
+  - name: views
+    description: |
+      > **Note:** this is a subset of the private interface below.
+
+      `views` are the entities that make a geo object visible to a unit on the public API.
+      The information is stored in the viewing unit as reference on the id of the other object.
+
+      `views` can be read and written as properties of unit objects, but they are also exposed on the API.
+  - name: private
+    description: |
+      CRUD operations for all geo objects (units, incidents, POIs).
+      Geo objects might contain sensitive information that is not available on the public API.
+paths:
+  /units:
+    get:
+      tags: [private]
+      operationId: getAllUnits
+      summary: Get all units in the broker.
+      responses:
+        '200':
+          description: list of all units
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/unit'
+  /units/{unitId}:
+    parameters:
+      - $ref: '#/components/parameters/unitId'
+    get:
+      tags: [private]
+      operationId: getUnit
+      summary: Get a unit in the broker.
+      responses:
+        '200':
+          description: returns the requested unit
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unit'
+    put:
+      tags: [private]
+      operationId: createUnit
+      summary: Create or replace a unit in the broker.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/unit'
+      responses:
+        '200':
+          description: returns the new unit
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unit'
+    patch:
+      tags: [private]
+      operationId: updateUnit
+      summary: Updates a unit in the broker, i.e. merges with the request body.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              $ref: '#/components/schemas/unit'
+      responses:
+        '200':
+          description: returns the updated unit
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unit'
+    delete:
+      tags: [private]
+      operationId: deleteUnit
+      summary: Delete an existing unit from the broker.
+      responses:
+        '200':
+          description: returns the deleted unit
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unit'
+  /units/{unitId}/views/units:
+    parameters:
+      - $ref: '#/components/parameters/unitId'
+    get:
+      tags: [private, views]
+      operationId: getAllUnitViews
+      summary: Get all units that the unit may see.
+      responses:
+        '200':
+          description: list of all referenced unit ids
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/view'
+  /units/{unitId}/views/units/{otherUnit}:
+    parameters:
+      - $ref: '#/components/parameters/unitId'
+      - name: otherUnit
+        in: path
+        requried: true
+        schema:
+          type: integer
+    get:
+      tags: [private, views]
+      operationId: getUnitView
+      summary: Find out whether the unit may see the other unit.
+      responses:
+        '204':
+          description: the other unit is in the scope of this unit
+        '404':
+          description: the other unit is *not* in the scope of this unit
+    put:
+      tags: [private, views]
+      operationId: setUnitView
+      summary: Allow the unit to see the other unit.
+      responses:
+        '204':
+          description: put the other unit in the scope of this unit
+    delete:
+      tags: [private, views]
+      operationId: deleteUnitView
+      summary: Disallow the unit to see the other unit.
+      responses:
+        '204':
+          description: the other unit is in the scope of this unit
+  /units/{unitId}/views/incidents:
+    parameters:
+      - $ref: '#/components/parameters/unitId'
+    get:
+      tags: [private, views]
+      operationId: getAllIncidentViews
+      summary: Get all incidents that the unit may see.
+      responses:
+        '200':
+          description: list of all referenced incident ids
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/view'
+  /units/{unitId}/views/units/{incidentId}:
+    parameters:
+      - $ref: '#/components/parameters/unitId'
+      - $ref: '#/components/parameters/incidentId'
+    get:
+      tags: [private, views]
+      operationId: getIncidentView
+      summary: Find out whether the unit may see the incident.
+      responses:
+        '204':
+          description: the incident is in the scope of this unit
+        '404':
+          description: the incident is *not* in the scope of this unit
+    put:
+      tags: [private, views]
+      operationId: setIncidentView
+      summary: Allow the unit to see the incident.
+      responses:
+        '204':
+          description: put the incident in the scope of this unit
+    delete:
+      tags: [private, views]
+      operationId: deleteIncidentView
+      summary: Disallow the unit to see the incident.
+      responses:
+        '204':
+          description: the incident is in the scope of this unit
+  /incidents:
+    get:
+      tags: [private]
+      operationId: getAllIncidents
+      summary: Get all incidents in the broker.
+      responses:
+        '200':
+          description: list of all incidents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/incident'
+  /incidents/{incidentId}:
+    parameters:
+      - $ref: '#/components/parameters/incidentId'
+    get:
+      tags: [private]
+      operationId: getIncident
+      summary: Get a incident in the broker.
+      responses:
+        '200':
+          description: returns the requested incident
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/incident'
+    put:
+      tags: [private]
+      operationId: createIncident
+      summary: Create or replace a incident in the broker.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/incident'
+      responses:
+        '200':
+          description: returns the new incident
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/incident'
+    patch:
+      tags: [private]
+      operationId: updateIncident
+      summary: Updates a incident in the broker, i.e. merges with the request body.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              $ref: '#/components/schemas/incident'
+      responses:
+        '200':
+          description: returns the updatedincident
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/incident'
+    delete:
+      tags: [private]
+      operationId: deleteIncident
+      summary: Delete an existing incident from the broker.
+      responses:
+        '200':
+          description: returns the deleted incident
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/incident'
+  /scope/{unitId}:
+    parameters:
+      - $ref: '#/components/parameters/unitId'
+      - $ref: '#/components/parameters/token'
+    get:
+      tags: [public]
+      operationId: getScope
+      summary: Retrieves all units and incidents that are available for a unit.
+      responses:
+        '200':
+           $ref: '#/components/responses/publicScope'
+    post:
+      tags: [public]
+      operationId: updatePosition
+      summary: Updates a unit's position.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/position'
+      responses:
+        '200':
+           $ref: '#/components/responses/publicScope'
+components:
+  responses:
+    publicScope:
+      content:
+        application/json:
+          schema:
+            properties:
+              units:
+                type: array
+                items:
+                  $ref: '#/components/schemas/publicUnit'
+  parameters:
+    token:
+      name: token
+      in: query
+      requried: true
+      schema:
+        type: string
+    unitId:
+      name: unitId
+      in: path
+      requried: true
+      schema:
+        type: integer
+    incidentId:
+      name: incidentId
+      in: path
+      requried: true
+      schema:
+        type: integer
+  schemas:
+    unit:
+      description: |
+        A unit on the private interface with all properties.
+
+        > **Note:** to be specified
+      properties:
+        views:
+          properties:
+            units:
+              $ref: '#/components/schemas/view'
+            incidents:
+              $ref: '#/components/schemas/view'
+    publicUnit:
+      description: |
+        A unit on the public interface with filtered properties.
+
+        > **Note:** to be specified
+    incident:
+      description: |
+        An incident on the private interface with all properties.
+
+        > **Note:** to be specified
+    publicIncident:
+      description: |
+        An incident on the public interface with filtered properties.
+
+        > **Note:** to be specified
+    position:
+      description: |
+        A snapshot of a geo objects location and movement.
+      required:
+        - timestamp
+        - latitude
+        - longitude
+      properties:
+        timestamp:
+          description: |
+            The time of the snapshot.
+
+            > **Note:** unit to be defined
+          type: number
+        latitude:
+          description: The latitude of the location in degrees.
+          type: number
+        longitude:
+          description: The longitude of the location in degrees.
+          type: number
+        accuracy:
+          description: The accuracy of the horizontal location in meters.
+          type: number
+        heading:
+          description: The heading of the movement in degrees clockwise from north.
+          type: number
+        speed:
+          description: The speed of the movement in meters per second.
+          type: number
+    view:
+      definition: |
+        An array of ids that refer to other geo objects.
+      type: array
+      items:
+        type: integer
