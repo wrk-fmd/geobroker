@@ -322,28 +322,54 @@ components:
     unit:
       description: |
         A unit on the private interface with all properties.
-
-        > **Note:** to be specified
-      properties:
-        units:
-          $ref: '#/components/schemas/relations'
-        incidents:
-          $ref: '#/components/schemas/relations'
+      allOf:
+        - $ref: '#/components/schemas/publicUnit'
+        - properties:
+            token:
+              type: string
+            units:
+              $ref: '#/components/schemas/relations'
+            incidents:
+              $ref: '#/components/schemas/relations'
     publicUnit:
       description: |
         A unit on the public interface with filtered properties.
-
-        > **Note:** to be specified
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        lastPosition:
+          $ref: '#/components/schemas/position'
+        targetPosition:
+          $ref: '#/components/schemas/position'
     incident:
       description: |
         An incident on the private interface with all properties.
-
-        > **Note:** to be specified
+      allOf:
+        - $ref: '#/components/schemas/publicIncident'
     publicIncident:
       description: |
         An incident on the public interface with filtered properties.
-
-        > **Note:** to be specified
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+        priority:
+          type: boolean
+        blue:
+          type: boolean
+        info:
+          type: string
+        position:
+          $ref: '#/components/schemas/position'
     position:
       description: |
         A snapshot of a geo objects location and movement.
