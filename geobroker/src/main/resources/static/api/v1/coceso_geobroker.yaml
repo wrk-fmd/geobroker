@@ -7,8 +7,6 @@ info:
 
     > **Note:** error responses are not yet designed. Expect plain text messages in the response for now.
 
-    > **Note:** descriptions for the models are not yet available. Please ask when things remain unclear.
-
     > **Note:** the geobroker tracks three types of objects: units, incidents, and POIs. POIs are neither defined nor implemented yet.
   version: v1
   license:
@@ -120,14 +118,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/relations'
-  /units/{unitId}/units/{otherUnit}:
+  /units/{unitId}/units/{otherUnitId}:
     parameters:
       - $ref: '#/components/parameters/unitId'
-      - name: otherUnit
-        in: path
-        requried: true
-        schema:
-          type: integer
+      - $ref: '#/components/parameters/otherUnitId'
     get:
       tags: ["Private API (relations)"]
       operationId: getUnitView
@@ -212,7 +206,7 @@ paths:
     get:
       tags: ["Private API (CRUD)"]
       operationId: getIncident
-      summary: Get a incident in the broker.
+      summary: Get an incident in the broker.
       responses:
         '200':
           description: returns the requested incident
@@ -223,7 +217,7 @@ paths:
     put:
       tags: ["Private API (CRUD)"]
       operationId: createIncident
-      summary: Create or replace a incident in the broker.
+      summary: Create or replace an incident in the broker.
       requestBody:
         content:
           application/json:
@@ -239,7 +233,7 @@ paths:
     patch:
       tags: ["Private API (CRUD)"]
       operationId: updateIncident
-      summary: Update a incident in the broker, i.e. merges with the request body.
+      summary: Update an incident in the broker, i.e. merges with the request body.
       requestBody:
         content:
           application/json:
@@ -308,6 +302,12 @@ components:
         type: string
     unitId:
       name: unitId
+      in: path
+      requried: true
+      schema:
+        type: integer
+    otherUnitId:
+      name: otherUnitId
       in: path
       requried: true
       schema:
