@@ -75,24 +75,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/unit'
-    patch:
-      tags: ["Private API (CRUD)"]
-      operationId: updateUnit
-      summary: Update a unit in the broker, i.e. merges with the request body.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-            example:
-              $ref: '#/components/schemas/unit'
-      responses:
-        '200':
-          description: returns the updated unit
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/unit'
     delete:
       tags: ["Private API (CRUD)"]
       operationId: deleteUnit
@@ -226,24 +208,6 @@ paths:
       responses:
         '200':
           description: returns the new incident
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/incident'
-    patch:
-      tags: ["Private API (CRUD)"]
-      operationId: updateIncident
-      summary: Update an incident in the broker, i.e. merges with the request body.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-            example:
-              $ref: '#/components/schemas/incident'
-      responses:
-        '200':
-          description: returns the updatedincident
           content:
             application/json:
               schema:
