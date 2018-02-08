@@ -335,36 +335,44 @@ components:
           type: boolean
         info:
           type: string
-        position:
-          $ref: '#/components/schemas/position'
-    position:
+        location:
+          $ref: '#/components/schemas/point'
+    point:
       description: |
-        A snapshot of a geo objects location and movement.
+        A 2D point on the map.
       type: object
       required:
-        - timestamp
         - latitude
         - longitude
       properties:
-        timestamp:
-          description: |
-            The time of the snapshot as ISO8601 date and time.
-          type: string
         latitude:
           description: The latitude of the location in degrees.
           type: number
         longitude:
           description: The longitude of the location in degrees.
           type: number
-        accuracy:
-          description: The accuracy of the horizontal location in meters.
-          type: number
-        heading:
-          description: The heading of the movement in degrees clockwise from north.
-          type: number
-        speed:
-          description: The speed of the movement in meters per second.
-          type: number
+    position:
+      description: |
+        A snapshot of a geo objects location and movement.
+      allOf:
+        - $ref: '#/components/schemas/point'
+        - type: object
+          required:
+            - timestamp
+          properties:
+            timestamp:
+              description: |
+                The time of the snapshot as ISO8601 date and time.
+              type: string
+            accuracy:
+              description: The accuracy of the horizontal location in meters.
+              type: number
+            heading:
+              description: The heading of the movement in degrees clockwise from north.
+              type: number
+            speed:
+              description: The speed of the movement in meters per second.
+              type: number
     relations:
       definition: |
         An array of ids that refer to other geo objects.
