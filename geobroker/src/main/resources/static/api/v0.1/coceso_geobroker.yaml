@@ -17,6 +17,7 @@ tags:
   - name: Public API
     description: |
       The public API allows position updates for each unit with their authentication (token).
+
       The output on the public API is restricted in two ways:
         - a unit may only see some objects as set via the related entities on the private API
         - individual objects only share public properties, see <a href="#model-publicUnit">publicUnit</a>
@@ -211,11 +212,27 @@ paths:
       summary: Retrieves all units and incidents that are available for a unit.
       responses:
         '200':
-           $ref: '#/components/responses/publicScope'
+          description: returns all data that the unit may see
+          content:
+            application/json:
+              schema:
+                properties:
+                  units:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/publicUnit'
+                  incidents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/publicIncident'
+  /positions/{unitId}:
+    parameters:
+      - $ref: '#/components/parameters/unitId'
+      - $ref: '#/components/parameters/token'
     post:
       tags: ["Public API"]
-      operationId: updatePosition
-      summary: Update a unit's position.
+      operationId: reportPosition
+      summary: Report a unit's position.
       requestBody:
         content:
           application/json:
@@ -223,22 +240,12 @@ paths:
               $ref: '#/components/schemas/position'
       responses:
         '200':
-           $ref: '#/components/responses/publicScope'
+          description: returns the new position
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/position'
 components:
-  responses:
-    publicScope:
-      content:
-        application/json:
-          schema:
-            properties:
-              units:
-                type: array
-                items:
-                  $ref: '#/components/schemas/publicUnit'
-              incidents:
-                type: array
-                items:
-                  $ref: '#/components/schemas/publicIncident'
   parameters:
     token:
       name: token
