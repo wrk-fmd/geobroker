@@ -8,11 +8,11 @@ info:
     > **Note:** error responses are not yet designed. Expect plain text messages in the response for now.
 
     > **Note:** the geobroker tracks three types of objects: units, incidents, and POIs. POIs are neither defined nor implemented yet.
-  version: v1
+  version: v0.1
   license:
     name: MIT
 servers:
-  - url: /api/v1
+  - url: /api/v0.1
 tags:
   - name: Public API
     description: |

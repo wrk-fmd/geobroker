@@ -8,11 +8,11 @@ info:
     > **Note:** error responses are not yet designed. Expect plain text messages in the response for now.
 
     > **Note:** descriptions for the models are not yet available. Please ask when things remained unclear.
-  version: v1
+  version: v0.1
   license:
     name: MIT
 servers:
-  - url: /api/v1
+  - url: /api/v0.1
 tags:
   - name: public
     description: |
