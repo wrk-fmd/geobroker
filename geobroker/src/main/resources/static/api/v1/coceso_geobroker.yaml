@@ -384,10 +384,8 @@ components:
       properties:
         timestamp:
           description: |
-            The time of the snapshot.
-
-            > **Note:** unit to be defined
-          type: number
+            The time of the snapshot as ISO8601 date and time.
+          type: string
         latitude:
           description: The latitude of the location in degrees.
           type: number
