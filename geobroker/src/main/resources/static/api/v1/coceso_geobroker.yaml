@@ -305,19 +305,19 @@ components:
       in: path
       requried: true
       schema:
-        type: integer
+        type: string
     otherUnitId:
       name: otherUnitId
       in: path
       requried: true
       schema:
-        type: integer
+        type: string
     incidentId:
       name: incidentId
       in: path
       requried: true
       schema:
-        type: integer
+        type: string
   schemas:
     unit:
       description: |
@@ -341,7 +341,7 @@ components:
         - name
       properties:
         id:
-          type: integer
+          type: string
         name:
           type: string
         lastPosition:
@@ -362,7 +362,7 @@ components:
         - type
       properties:
         id:
-          type: integer
+          type: string
         type:
           type: string
         priority:
@@ -408,4 +408,4 @@ components:
         An array of ids that refer to other geo objects.
       type: array
       items:
-        type: integer
+        type: string
