@@ -257,6 +257,10 @@ components:
                 type: array
                 items:
                   $ref: '#/components/schemas/publicUnit'
+              incidents:
+                type: array
+                items:
+                  $ref: '#/components/schemas/publicIncident'
   parameters:
     token:
       name: token
