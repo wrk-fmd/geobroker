@@ -29,7 +29,7 @@ tags:
       The entities listed under a unit are visible to that unit on the public API.
       The information is stored as reference on the id of the other object.
 
-      These related entities can be read and written as properties of unit objects, but they are also exposed on the API.
+      These related entities can be read and written as properties of unit objects, but the lists are also exposed on the API.
 paths:
   /units:
     get:
@@ -91,7 +91,7 @@ paths:
       - $ref: '#/components/parameters/unitId'
     get:
       tags: ["Private API (relations)"]
-      operationId: getAllUnitViews
+      operationId: getRelatedUnits
       summary: Get all units that the unit may see.
       responses:
         '200':
@@ -100,39 +100,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/relations'
-  /units/{unitId}/units/{otherUnitId}:
-    parameters:
-      - $ref: '#/components/parameters/unitId'
-      - $ref: '#/components/parameters/otherUnitId'
-    get:
-      tags: ["Private API (relations)"]
-      operationId: getUnitView
-      summary: Find out whether the unit may see the other unit.
-      responses:
-        '204':
-          description: the other unit is in the scope of this unit
-        '404':
-          description: the other unit is *not* in the scope of this unit
     put:
       tags: ["Private API (relations)"]
-      operationId: setUnitView
-      summary: Allow the unit to see the other unit.
+      operationId: setRelatedUnits
+      summary: Set the list of units that the unit may see.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/relations'
       responses:
-        '204':
-          description: put the other unit in the scope of this unit
-    delete:
-      tags: ["Private API (relations)"]
-      operationId: deleteUnitView
-      summary: Disallow the unit to see the other unit.
-      responses:
-        '204':
-          description: the other unit is in the scope of this unit
+        '200':
+          description: returns the new list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/relations'
   /units/{unitId}/incidents:
     parameters:
       - $ref: '#/components/parameters/unitId'
     get:
       tags: ["Private API (relations)"]
-      operationId: getAllIncidentViews
+      operationId: getRelatedIncidents
       summary: Get all incidents that the unit may see.
       responses:
         '200':
@@ -141,33 +130,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/relations'
-  /units/{unitId}/incidents/{incidentId}:
-    parameters:
-      - $ref: '#/components/parameters/unitId'
-      - $ref: '#/components/parameters/incidentId'
-    get:
-      tags: ["Private API (relations)"]
-      operationId: getIncidentView
-      summary: Find out whether the unit may see the incident.
-      responses:
-        '204':
-          description: the incident is in the scope of this unit
-        '404':
-          description: the incident is *not* in the scope of this unit
     put:
       tags: ["Private API (relations)"]
-      operationId: setIncidentView
-      summary: Allow the unit to see the incident.
+      operationId: setRelatedIncidents
+      summary: Set the list of incidents that the unit may see.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/relations'
       responses:
-        '204':
-          description: put the incident in the scope of this unit
-    delete:
-      tags: ["Private API (relations)"]
-      operationId: deleteIncidentView
-      summary: Disallow the unit to see the incident.
-      responses:
-        '204':
-          description: the incident is in the scope of this unit
+        '200':
+          description: returns the new list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/relations'
   /incidents:
     get:
       tags: ["Private API (CRUD)"]
@@ -270,12 +248,6 @@ components:
         type: string
     unitId:
       name: unitId
-      in: path
-      requried: true
-      schema:
-        type: string
-    otherUnitId:
-      name: otherUnitId
       in: path
       requried: true
       schema:
