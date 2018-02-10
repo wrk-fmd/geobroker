@@ -26,11 +26,11 @@ tags:
       CRUD operations for units.
       Units are managed via the private API, and can be accessed via the public API for position updates.
   - name: Private Incident CRUD
-      description: |
-        CRUD operations for incidents.
-        Incidents are managed via the private API.
-        Incidents which are assigned to a unit, can be viewed by the unit.
-        Incident access is solely read-only on the public API.
+    description: |
+      CRUD operations for incidents.
+      Incidents are managed via the private API.
+      Incidents which are assigned to a unit, can be viewed by the unit.
+      Incident access is solely read-only on the public API.
   - name: Private API (relations)
     description: |
       A unit can have assigned incidents and relations to other units.
