@@ -70,6 +70,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/unit'
+        '404':
+          description: the requested unit was not found
     put:
       tags: ["Private Unit CRUD"]
       operationId: createUnit
@@ -92,11 +94,7 @@ paths:
       summary: Delete an existing unit from the broker.
       responses:
         '200':
-          description: returns the deleted unit
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/unit'
+          description: always returns a success
   /units/{unitId}/units:
     parameters:
       - $ref: '#/components/parameters/unitId'
@@ -185,6 +183,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/incident'
+        '404':
+          description: the requested incident was not found
     put:
       tags: ["Private Incident CRUD"]
       operationId: createIncident
@@ -208,10 +208,6 @@ paths:
       responses:
         '200':
           description: returns the deleted incident
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/incident'
   /scope/{unitId}:
     parameters:
       - $ref: '#/components/parameters/unitId'
