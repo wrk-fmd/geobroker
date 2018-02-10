@@ -21,11 +21,11 @@ tags:
       The output on the public API is restricted in two ways:
         - a unit may only see some objects as set via the related entities on the private API
         - individual objects only share public properties, see <a href="#model-publicUnit">publicUnit</a>
-  - name: Private: Unit CRUD
+  - name: Private Unit CRUD
     description: |
       CRUD operations for units.
       Units are managed via the private API, and can be accessed via the public API for position updates.
-  - name: Private: Incident CRUD
+  - name: Private Incident CRUD
       description: |
         CRUD operations for incidents.
         Incidents are managed via the private API.
@@ -44,7 +44,7 @@ tags:
 paths:
   /units:
     get:
-      tags: ["Private: Unit CRUD"]
+      tags: ["Private Unit CRUD"]
       operationId: getAllUnits
       summary: Get all units in the broker.
       responses:
@@ -60,7 +60,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/unitId'
     get:
-      tags: ["Private: Unit CRUD"]
+      tags: ["Private Unit CRUD"]
       operationId: getUnit
       summary: Get a unit in the broker.
       responses:
@@ -71,7 +71,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/unit'
     put:
-      tags: ["Private: Unit CRUD"]
+      tags: ["Private Unit CRUD"]
       operationId: createUnit
       summary: Create or replace a unit in the broker.
       requestBody:
@@ -87,7 +87,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/unit'
     delete:
-      tags: ["Private: Unit CRUD"]
+      tags: ["Private Unit CRUD"]
       operationId: deleteUnit
       summary: Delete an existing unit from the broker.
       responses:
@@ -159,7 +159,7 @@ paths:
                 $ref: '#/components/schemas/relations'
   /incidents:
     get:
-      tags: ["Private: Incident CRUD"]
+      tags: ["Private Incident CRUD"]
       operationId: getAllIncidents
       summary: Get all incidents in the broker.
       responses:
@@ -175,7 +175,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/incidentId'
     get:
-      tags: ["Private: Incident CRUD"]
+      tags: ["Private Incident CRUD"]
       operationId: getIncident
       summary: Get an incident in the broker.
       responses:
@@ -186,7 +186,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/incident'
     put:
-      tags: ["Private: Incident CRUD"]
+      tags: ["Private Incident CRUD"]
       operationId: createIncident
       summary: Create or replace an incident in the broker.
       requestBody:
@@ -202,7 +202,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/incident'
     delete:
-      tags: ["Private: Incident CRUD"]
+      tags: ["Private Incident CRUD"]
       operationId: deleteIncident
       summary: Delete an existing incident from the broker.
       responses:
