@@ -21,20 +21,30 @@ tags:
       The output on the public API is restricted in two ways:
         - a unit may only see some objects as set via the related entities on the private API
         - individual objects only share public properties, see <a href="#model-publicUnit">publicUnit</a>
-  - name: Private API (CRUD)
+  - name: Private: Unit CRUD
     description: |
-      CRUD operations for all geo objects (units, incidents, POIs).
-      Geo objects might contain sensitive information that is not available on the public API.
+      CRUD operations for units.
+      Units are managed via the private API, and can be accessed via the public API for position updates.
+  - name: Private: Incident CRUD
+      description: |
+        CRUD operations for incidents.
+        Incidents are managed via the private API.
+        Incidents which are assigned to a unit, can be viewed by the unit.
+        Incident access is solely read-only on the public API.
   - name: Private API (relations)
     description: |
-      The entities listed under a unit are visible to that unit on the public API.
-      The information is stored as reference on the id of the other object.
+      A unit can have assigned incidents and relations to other units.
+      Both relations are asymmetrical, and describe the access right of the unit, where the reference is attached.
+      The information is stored as reference to the id of the other object.
 
       These related entities can be read and written as properties of unit objects, but the lists are also exposed on the API.
+
+      Example: Unit A is allowed to see Unit B and Incident X.
+      Unit A gets the ID of Unit B and the ID of Incident X assigned, to be able to see them.
 paths:
   /units:
     get:
-      tags: ["Private API (CRUD)"]
+      tags: ["Private: Unit CRUD"]
       operationId: getAllUnits
       summary: Get all units in the broker.
       responses:
@@ -50,7 +60,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/unitId'
     get:
-      tags: ["Private API (CRUD)"]
+      tags: ["Private: Unit CRUD"]
       operationId: getUnit
       summary: Get a unit in the broker.
       responses:
@@ -61,7 +71,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/unit'
     put:
-      tags: ["Private API (CRUD)"]
+      tags: ["Private: Unit CRUD"]
       operationId: createUnit
       summary: Create or replace a unit in the broker.
       requestBody:
@@ -77,7 +87,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/unit'
     delete:
-      tags: ["Private API (CRUD)"]
+      tags: ["Private: Unit CRUD"]
       operationId: deleteUnit
       summary: Delete an existing unit from the broker.
       responses:
@@ -149,7 +159,7 @@ paths:
                 $ref: '#/components/schemas/relations'
   /incidents:
     get:
-      tags: ["Private API (CRUD)"]
+      tags: ["Private: Incident CRUD"]
       operationId: getAllIncidents
       summary: Get all incidents in the broker.
       responses:
@@ -165,7 +175,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/incidentId'
     get:
-      tags: ["Private API (CRUD)"]
+      tags: ["Private: Incident CRUD"]
       operationId: getIncident
       summary: Get an incident in the broker.
       responses:
@@ -176,7 +186,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/incident'
     put:
-      tags: ["Private API (CRUD)"]
+      tags: ["Private: Incident CRUD"]
       operationId: createIncident
       summary: Create or replace an incident in the broker.
       requestBody:
@@ -192,7 +202,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/incident'
     delete:
-      tags: ["Private API (CRUD)"]
+      tags: ["Private: Incident CRUD"]
       operationId: deleteIncident
       summary: Delete an existing incident from the broker.
       responses:
