@@ -53,9 +53,11 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/unit'
+                properties:
+                  configuredUnits:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/unit'
   /units/{unitId}:
     parameters:
       - $ref: '#/components/parameters/unitId'
@@ -166,9 +168,11 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/incident'
+                properties:
+                  configuredIncidents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/incident'
   /incidents/{incidentId}:
     parameters:
       - $ref: '#/components/parameters/incidentId'
@@ -231,6 +235,8 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/publicIncident'
+        '403':
+          description: unit identifier and token combination is invalid
   /positions/{unitId}:
     parameters:
       - $ref: '#/components/parameters/unitId'
@@ -251,6 +257,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/position'
+        '403':
+          description: unit identifier and token combination is invalid
 components:
   parameters:
     token:
