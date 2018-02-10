@@ -278,20 +278,39 @@ components:
   schemas:
     unit:
       description: |
-        A unit on the private interface with all properties.
-      allOf:
-        - $ref: '#/components/schemas/publicUnit'
-        - type: object
-          properties:
-            token:
-              type: string
-            units:
-              $ref: '#/components/schemas/relations'
-            incidents:
-              $ref: '#/components/schemas/relations'
+        A unit configuration with all properties.
+        This schema of a unit is only available on the private API.
+        All these properties can be updated.
+      required:
+        - id
+        - name
+        - token
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the unit.
+        name:
+          type: string
+          description: The publicly visible display name of the unit.
+        token:
+          type: string
+          description: The secret authorization token, to authorize position updates on the public API.
+        units:
+          $ref: '#/components/schemas/relations'
+          description: Set of unitIds, which the unit is allowed to see.
+        incidents:
+          $ref: '#/components/schemas/relations'
+          description: Set of incidentIds, which the unit is allowed to see.
+        lastPoint:
+          $ref: '#/components/schemas/point'
+          description: The last known point of the unit where a status update was communicated.
+        targetPoint:
+          $ref: '#/components/schemas/point'
+          description: The destination of travel of the unit.
     publicUnit:
       description: |
-        A unit on the public interface with filtered properties.
+        A unit with public configuration data and live data.
+        This view is provided on the public API.
       type: object
       required:
         - id
@@ -299,11 +318,17 @@ components:
       properties:
         id:
           type: string
+          description: The unique identifier of the unit.
         name:
           type: string
-        lastPosition:
-          $ref: '#/components/schemas/position'
-        targetPosition:
+          description: The publicly visible display name of the unit.
+        lastPoint:
+          $ref: '#/components/schemas/point'
+          description: The last known point of the unit where a status update was communicated.
+        targetPoint:
+          $ref: '#/components/schemas/point'
+          description: The destination of travel of the unit.
+        currentPosition:
           $ref: '#/components/schemas/position'
     incident:
       description: |
