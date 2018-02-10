@@ -1,11 +1,20 @@
+/*
+ * Copyright (c) 2018 Red Cross Vienna and contributors. All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the MIT license. See the LICENSE file for details.
+ */
+
 package at.wrk.fmd.geobroker.contract.unit;
 
 import at.wrk.fmd.geobroker.contract.ContractToStringStyle;
 import at.wrk.fmd.geobroker.contract.generic.Point;
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The POJO for the internal configured unit.
@@ -29,11 +38,11 @@ public class ConfiguredUnit implements Serializable {
             final List<String> incidents,
             final Point lastPoint,
             final Point targetPoint) {
-        this.id = id;
-        this.name = name;
-        this.token = token;
-        this.units = units;
-        this.incidents = incidents;
+        this.id = Objects.requireNonNull(id, "Unit identifier must not be null.");
+        this.name = Objects.requireNonNull(name, "Display name of unit must not be null.");
+        this.token = Objects.requireNonNull(token, "Token of unit must not be null.");
+        this.units = units == null ? ImmutableList.of() : ImmutableList.copyOf(units);
+        this.incidents = incidents == null ? ImmutableList.of() : ImmutableList.copyOf(incidents);
         this.lastPoint = lastPoint;
         this.targetPoint = targetPoint;
     }
@@ -58,10 +67,12 @@ public class ConfiguredUnit implements Serializable {
         return incidents;
     }
 
+    @Nullable
     public Point getLastPoint() {
         return lastPoint;
     }
 
+    @Nullable
     public Point getTargetPoint() {
         return targetPoint;
     }

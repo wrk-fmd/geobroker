@@ -1,7 +1,12 @@
+/*
+ * Copyright (c) 2018 Red Cross Vienna and contributors. All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the MIT license. See the LICENSE file for details.
+ */
+
 package at.wrk.fmd.geobroker.service;
 
-import at.wrk.fmd.geobroker.contract.ExternalUnit;
-import at.wrk.fmd.geobroker.data.Unit;
+import at.wrk.fmd.geobroker.contract.unit.ConfiguredUnit;
 import at.wrk.fmd.geobroker.repository.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class SimpleUnitService implements UnitService {
@@ -22,7 +26,7 @@ public class SimpleUnitService implements UnitService {
     }
 
     @Override
-    public void createOrUpdateUnit(final Unit unit) {
+    public void createOrUpdateUnit(final ConfiguredUnit unit) {
         Objects.requireNonNull(unit, "Unit to update must not be null");
         unitRepository.updateUnit(unit);
     }
@@ -34,20 +38,12 @@ public class SimpleUnitService implements UnitService {
     }
 
     @Override
-    public Set<ExternalUnit> getAllUnits() {
-        return unitRepository
-                .getAll()
-                .stream()
-                .map(this::mapToExternalUnit)
-                .collect(Collectors.toSet());
+    public Set<ConfiguredUnit> getAllUnits() {
+        return unitRepository.getAll();
     }
 
     @Override
-    public Optional<ExternalUnit> getUnit(final String unitId) {
-        return unitRepository.getUnit(unitId).map(this::mapToExternalUnit);
-    }
-
-    private ExternalUnit mapToExternalUnit(final Unit unit) {
-        return new ExternalUnit(unit.getUnitId(), unit.getDisplayName(), null);
+    public Optional<ConfiguredUnit> getUnit(final String unitId) {
+        return unitRepository.getUnit(unitId);
     }
 }

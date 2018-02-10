@@ -1,11 +1,18 @@
+/*
+ * Copyright (c) 2018 Red Cross Vienna and contributors. All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the MIT license. See the LICENSE file for details.
+ */
+
 package at.wrk.fmd.geobroker.repository;
 
-import at.wrk.fmd.geobroker.data.Unit;
+import at.wrk.fmd.geobroker.contract.unit.ConfiguredUnit;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Optional;
 
+import static at.wrk.fmd.geobroker.ConfiguredUnits.createUnit;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.hasValue;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isEmpty;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,10 +30,10 @@ public class InMemoryUnitRepositoryTest {
     @Test
     public void storeUnit_unitCanBeRetrieved() {
         String unitId = "unit-id";
-        Unit unit = new Unit(unitId, "token", "Fancy Unit");
+        ConfiguredUnit unit = createUnit(unitId, "token");
         sut.updateUnit(unit);
 
-        Optional<Unit> retrievedUnit = sut.getUnit(unitId);
+        Optional<ConfiguredUnit> retrievedUnit = sut.getUnit(unitId);
         assertThat(retrievedUnit, hasValue(samePropertyValuesAs(unit)));
     }
 
@@ -34,7 +41,7 @@ public class InMemoryUnitRepositoryTest {
     public void storeUnit_validTokenIsAuthorized() {
         String unitId = "unit-id";
         String token = "token";
-        Unit unit = new Unit(unitId, token, "Fancy Unit");
+        ConfiguredUnit unit = createUnit(unitId, token);
         sut.updateUnit(unit);
 
         boolean isAuthorized = sut.isTokenAuthorized(unitId, token);
@@ -45,7 +52,7 @@ public class InMemoryUnitRepositoryTest {
     public void storeUnit_invalidTokenIsNotAuthorized() {
         String unitId = "unit-id";
         String token = "token";
-        Unit unit = new Unit(unitId, token, "Fancy Unit");
+        ConfiguredUnit unit = createUnit(unitId, token);
         sut.updateUnit(unit);
 
         boolean isAuthorized = sut.isTokenAuthorized(unitId, "another token");
@@ -55,11 +62,11 @@ public class InMemoryUnitRepositoryTest {
     @Test
     public void deleteStoredUnit_unitCannotBeRetrieved() {
         String unitId = "unit-id";
-        Unit unit = new Unit(unitId, "token", "Fancy Unit");
+        ConfiguredUnit unit = createUnit(unitId, "token");
         sut.updateUnit(unit);
         sut.deleteUnit(unitId);
 
-        Optional<Unit> retrievedUnit = sut.getUnit(unitId);
+        Optional<ConfiguredUnit> retrievedUnit = sut.getUnit(unitId);
         assertThat(retrievedUnit, isEmpty());
     }
 }

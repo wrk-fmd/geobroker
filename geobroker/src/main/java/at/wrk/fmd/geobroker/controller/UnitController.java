@@ -1,25 +1,34 @@
+/*
+ * Copyright (c) 2018 Red Cross Vienna and contributors. All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the MIT license. See the LICENSE file for details.
+ */
+
 package at.wrk.fmd.geobroker.controller;
 
-import at.wrk.fmd.geobroker.contract.ExternalUnit;
-import at.wrk.fmd.geobroker.contract.Response;
-import at.wrk.fmd.geobroker.data.Unit;
+import at.wrk.fmd.geobroker.contract.unit.ConfiguredUnit;
+import at.wrk.fmd.geobroker.contract.unit.GetAllUnitsResponse;
 import at.wrk.fmd.geobroker.service.UnitService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Optional;
 import java.util.Set;
 
 @Controller
-@RequestMapping("/api/v1/private/unit")
+@RequestMapping("/api/v1/private/units")
 public class UnitController {
+    private static final Logger LOG = LoggerFactory.getLogger(UnitController.class);
+
     private final UnitService unitService;
 
     @Autowired
@@ -27,60 +36,51 @@ public class UnitController {
         this.unitService = unitService;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/{unitId}", method = RequestMethod.PUT)
     @ResponseBody
-    public Response updateUnit(
-            @RequestParam("unitId") final String unitId,
-            @RequestParam("token") final String token,
-            @RequestParam(value = "displayName", required = false, defaultValue = "") final String displayName) {
-        Unit updatedUnit = new Unit(unitId, token, displayName);
+    public ResponseEntity<ConfiguredUnit> updateUnit(
+            @PathVariable("unitId") final String unitId,
+            @RequestBody final ConfiguredUnit unit) {
+        ConfiguredUnit updatedUnit = new ConfiguredUnit(
+                unitId,
+                unit.getName(),
+                unit.getToken(),
+                unit.getUnits(),
+                unit.getIncidents(),
+                unit.getLastPoint(),
+                unit.getTargetPoint());
+
         unitService.createOrUpdateUnit(updatedUnit);
-        return Response.Builder
-                .createSuccessful()
-                .withDescription("Unit successfully updated.")
-                .build();
+        return ResponseEntity.ok(updatedUnit);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{unitId}", method = RequestMethod.DELETE)
     @ResponseBody
-    public Response removeUnit(@RequestParam("unitId") final String unitId) {
+    public ResponseEntity<Serializable> removeUnit(@PathVariable("unitId") final String unitId) {
         unitService.removeUnit(unitId);
-        return Response.Builder
-                .createSuccessful()
-                .withDescription("Unit successfully deleted.")
-                .build();
+        return ResponseEntity.ok().build();
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/{unitId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Response> getUnit(@RequestParam("unitId") final String unitId) {
-        ResponseEntity<Response> entity;
-        Optional<ExternalUnit> loadedUnit = unitService.getUnit(unitId);
+    public ResponseEntity<ConfiguredUnit> getUnit(@PathVariable("unitId") final String unitId) {
+        ResponseEntity<ConfiguredUnit> entity;
+        Optional<ConfiguredUnit> loadedUnit = unitService.getUnit(unitId);
 
         if (loadedUnit.isPresent()) {
-            Response response = Response.Builder
-                    .createSuccessful()
-                    .withPayload(loadedUnit.get())
-                    .build();
-            entity = ResponseEntity.ok().body(response);
+            entity = ResponseEntity.ok(loadedUnit.get());
         } else {
-            Response response = Response.Builder
-                    .createError()
-                    .withDescription("Unit with the given id was not found.")
-                    .build();
-            entity = ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            LOG.debug("Requested unit with id {} was not found.", unitId);
+            entity = ResponseEntity.notFound().build();
         }
 
         return entity;
     }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public Response getAllUnits() {
-        Set<ExternalUnit> allUnits = unitService.getAllUnits();
-        return Response.Builder
-                .createSuccessful()
-                .withPayload(new ArrayList<>(allUnits))
-                .build();
+    public ResponseEntity<GetAllUnitsResponse> getAllUnits() {
+        Set<ConfiguredUnit> allUnits = unitService.getAllUnits();
+        return ResponseEntity.ok(new GetAllUnitsResponse(allUnits));
     }
 }

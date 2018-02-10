@@ -1,6 +1,12 @@
+/*
+ * Copyright (c) 2018 Red Cross Vienna and contributors. All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the MIT license. See the LICENSE file for details.
+ */
+
 package at.wrk.fmd.geobroker.repository;
 
-import at.wrk.fmd.geobroker.data.Unit;
+import at.wrk.fmd.geobroker.contract.unit.ConfiguredUnit;
 import com.google.common.collect.ImmutableSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class InMemoryUnitRepository implements UnitRepository {
     private static final Logger LOG = LoggerFactory.getLogger(InMemoryUnitRepository.class);
 
-    private final Map<String, Unit> storage;
+    private final Map<String, ConfiguredUnit> storage;
 
     public InMemoryUnitRepository() {
         storage = new ConcurrentHashMap<>();
@@ -28,20 +34,20 @@ public class InMemoryUnitRepository implements UnitRepository {
     @Override
     public boolean isTokenAuthorized(final String unitId, final String token) {
         return getUnit(unitId)
-                .map(Unit::getToken)
+                .map(ConfiguredUnit::getToken)
                 .map(token::equals)
                 .orElse(false);
     }
 
     @Override
-    public void updateUnit(final Unit unit) {
+    public void updateUnit(final ConfiguredUnit unit) {
         LOG.trace("Updating unit in storage to {}", unit);
-        storage.put(unit.getUnitId(), unit);
+        storage.put(unit.getId(), unit);
     }
 
     @Override
     public void deleteUnit(final String unitId) {
-        Unit removedUnit = storage.remove(unitId);
+        ConfiguredUnit removedUnit = storage.remove(unitId);
 
         if (removedUnit != null) {
             LOG.trace("Removed unit from storage: {}", removedUnit);
@@ -51,12 +57,12 @@ public class InMemoryUnitRepository implements UnitRepository {
     }
 
     @Override
-    public Optional<Unit> getUnit(final String unitId) {
+    public Optional<ConfiguredUnit> getUnit(final String unitId) {
         return Optional.ofNullable(storage.get(unitId));
     }
 
     @Override
-    public Set<Unit> getAll() {
+    public Set<ConfiguredUnit> getAll() {
         return ImmutableSet.copyOf(storage.values());
     }
 }

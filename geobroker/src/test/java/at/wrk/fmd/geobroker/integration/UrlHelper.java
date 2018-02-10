@@ -4,10 +4,13 @@
  * This software may be modified and distributed under the terms of the MIT license. See the LICENSE file for details.
  */
 
-package at.wrk.fmd.geobroker.service;
+package at.wrk.fmd.geobroker.integration;
 
-public class UnknownUnitException extends Exception {
-    public UnknownUnitException(final String message) {
-        super(message);
+public final class UrlHelper {
+    private UrlHelper() {
+    }
+
+    public static String privateApiUrl(final String suffix) {
+        return "/api/v1/private" + suffix;
     }
 }
