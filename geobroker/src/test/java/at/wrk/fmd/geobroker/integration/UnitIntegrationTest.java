@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static at.wrk.fmd.geobroker.ConfiguredUnits.createUnit;
+import static at.wrk.fmd.geobroker.util.ConfiguredUnits.createUnit;
 import static at.wrk.fmd.geobroker.integration.UrlHelper.privateApiUrl;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;

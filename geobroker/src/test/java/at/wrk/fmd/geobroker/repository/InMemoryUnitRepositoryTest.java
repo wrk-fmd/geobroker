@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import java.util.Optional;
 
-import static at.wrk.fmd.geobroker.ConfiguredUnits.createUnit;
+import static at.wrk.fmd.geobroker.util.ConfiguredUnits.createUnit;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.hasValue;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isEmpty;
 import static org.hamcrest.MatcherAssert.assertThat;

@@ -8,7 +8,7 @@ package at.wrk.fmd.geobroker.controller;
 
 import at.wrk.fmd.geobroker.contract.unit.ConfiguredUnit;
 import at.wrk.fmd.geobroker.contract.unit.GetAllUnitsResponse;
-import at.wrk.fmd.geobroker.service.UnitService;
+import at.wrk.fmd.geobroker.service.unit.UnitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
