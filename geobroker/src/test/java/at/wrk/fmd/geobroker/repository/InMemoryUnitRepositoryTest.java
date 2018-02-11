@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import java.util.Optional;
 
-import static at.wrk.fmd.geobroker.util.ConfiguredUnits.createUnit;
+import static at.wrk.fmd.geobroker.util.ConfiguredUnits.randomUnit;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.hasValue;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isEmpty;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -30,7 +30,7 @@ public class InMemoryUnitRepositoryTest {
     @Test
     public void storeUnit_unitCanBeRetrieved() {
         String unitId = "unit-id";
-        ConfiguredUnit unit = createUnit(unitId, "token");
+        ConfiguredUnit unit = randomUnit(unitId, "token");
         sut.updateUnit(unit);
 
         Optional<ConfiguredUnit> retrievedUnit = sut.getUnit(unitId);
@@ -41,7 +41,7 @@ public class InMemoryUnitRepositoryTest {
     public void storeUnit_validTokenIsAuthorized() {
         String unitId = "unit-id";
         String token = "token";
-        ConfiguredUnit unit = createUnit(unitId, token);
+        ConfiguredUnit unit = randomUnit(unitId, token);
         sut.updateUnit(unit);
 
         boolean isAuthorized = sut.isTokenAuthorized(unitId, token);
@@ -52,7 +52,7 @@ public class InMemoryUnitRepositoryTest {
     public void storeUnit_invalidTokenIsNotAuthorized() {
         String unitId = "unit-id";
         String token = "token";
-        ConfiguredUnit unit = createUnit(unitId, token);
+        ConfiguredUnit unit = randomUnit(unitId, token);
         sut.updateUnit(unit);
 
         boolean isAuthorized = sut.isTokenAuthorized(unitId, "another token");
@@ -62,7 +62,7 @@ public class InMemoryUnitRepositoryTest {
     @Test
     public void deleteStoredUnit_unitCannotBeRetrieved() {
         String unitId = "unit-id";
-        ConfiguredUnit unit = createUnit(unitId, "token");
+        ConfiguredUnit unit = randomUnit(unitId, "token");
         sut.updateUnit(unit);
         sut.deleteUnit(unitId);
 

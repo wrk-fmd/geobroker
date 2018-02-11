@@ -13,4 +13,8 @@ public final class UrlHelper {
     public static String privateApiUrl(final String suffix) {
         return "/api/v1/private" + suffix;
     }
+
+    public static String publicApiUrl(final String suffix) {
+        return "/api/v1/public" + suffix;
+    }
 }

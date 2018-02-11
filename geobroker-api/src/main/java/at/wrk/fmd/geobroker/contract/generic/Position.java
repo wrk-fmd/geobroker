@@ -28,7 +28,7 @@ public class Position extends Point {
             final Double heading,
             final Double speed) {
         super(latitude, longitude);
-        this.timestamp = timestamp;
+        this.timestamp = Objects.requireNonNull(timestamp, "timestamp of position must not be null.");
         this.accuracy = accuracy;
         this.heading = heading;
         this.speed = speed;
