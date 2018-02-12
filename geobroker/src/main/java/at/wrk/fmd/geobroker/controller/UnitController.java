@@ -25,7 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Controller
-@RequestMapping("/api/v1/private/units")
+@RequestMapping("${api.url.base}/private/units")
 public class UnitController {
     private static final Logger LOG = LoggerFactory.getLogger(UnitController.class);
 

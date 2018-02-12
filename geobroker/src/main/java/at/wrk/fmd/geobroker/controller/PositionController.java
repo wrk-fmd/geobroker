@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/api/v1/public/positions")
+@RequestMapping("${api.url.base}/public/positions")
 public class PositionController {
 
     private final PositionService positionService;

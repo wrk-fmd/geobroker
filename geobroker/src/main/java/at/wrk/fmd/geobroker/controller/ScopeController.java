@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/api/v1/public/scope")
+@RequestMapping("${api.url.base}/public/scope")
 public class ScopeController {
 
     private final ScopeService scopeService;
