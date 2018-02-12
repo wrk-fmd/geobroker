@@ -40,6 +40,9 @@
 
             <activation>
                 <activeByDefault>false</activeByDefault>
+                <property>
+                    <name>idea.maven.embedder.version</name>
+                </property>
             </activation>
 
             <dependencies>
