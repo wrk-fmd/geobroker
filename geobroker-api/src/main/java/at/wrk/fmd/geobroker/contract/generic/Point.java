@@ -19,9 +19,9 @@ public class Point implements Serializable {
     private final Double latitude;
     private final Double longitude;
 
-    public Point(final double latitude, final double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+    public Point(final Double latitude, final Double longitude) {
+        this.latitude = Objects.requireNonNull(latitude, "latitude must not be null.");
+        this.longitude = Objects.requireNonNull(longitude, "longitude must not be null.");
     }
 
     public Double getLatitude() {

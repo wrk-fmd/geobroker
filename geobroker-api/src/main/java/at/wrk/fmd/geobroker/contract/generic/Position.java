@@ -21,8 +21,8 @@ public class Position extends Point {
     private final Double speed;
 
     public Position(
-            final double latitude,
-            final double longitude,
+            final Double latitude,
+            final Double longitude,
             final Instant timestamp,
             final Double accuracy,
             final Double heading,
