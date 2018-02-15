@@ -32,8 +32,8 @@ public final class ConfiguredUnits {
                 token,
                 referencedUnitIds,
                 ImmutableList.of("referenced incident 1 " + randomAlphabetic(), "referenced incident 2 " + randomAlphabetic()),
-                new Point(new Double(123), RandomUtils.nextDouble(0, 90)),
-                new Point(new Double(938), RandomUtils.nextDouble(0, 90))
+                new Point(123d, RandomUtils.nextDouble(0, 90)),
+                new Point(938d, RandomUtils.nextDouble(0, 90))
         );
     }
 
