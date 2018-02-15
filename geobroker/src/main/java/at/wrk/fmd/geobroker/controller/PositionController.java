@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping("${api.url.base}/public/positions")
 public class PositionController {
@@ -37,7 +39,7 @@ public class PositionController {
     public ResponseEntity<Position> getPosition(
             final @PathVariable("unitId") String unitId,
             final @RequestParam("token") String token,
-            final @RequestBody Position updatedPosition) {
+            final @RequestBody @Valid Position updatedPosition) {
         ResponseEntity<Position> response = ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
         PositionUpdateResult result = positionService.updatePosition(unitId, token, updatedPosition);

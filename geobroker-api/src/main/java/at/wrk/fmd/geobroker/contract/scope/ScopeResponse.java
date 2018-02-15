@@ -9,6 +9,7 @@ package at.wrk.fmd.geobroker.contract.scope;
 import at.wrk.fmd.geobroker.contract.ContractToStringStyle;
 import at.wrk.fmd.geobroker.contract.incident.Incident;
 import at.wrk.fmd.geobroker.contract.unit.LiveUnit;
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
@@ -21,8 +22,8 @@ public class ScopeResponse implements Serializable {
     private final List<Incident> incidents;
 
     public ScopeResponse(final List<LiveUnit> units, final List<Incident> incidents) {
-        this.units = units;
-        this.incidents = incidents;
+        this.units = ImmutableList.copyOf(units);
+        this.incidents = ImmutableList.copyOf(incidents);
     }
 
     public List<LiveUnit> getUnits() {

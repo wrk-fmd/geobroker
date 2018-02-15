@@ -12,6 +12,7 @@ import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -47,24 +48,27 @@ public class ConfiguredUnit implements Serializable {
         this.targetPoint = targetPoint;
     }
 
+    @NotNull
     public String getId() {
         return id;
     }
 
+    @NotNull
     public String getName() {
         return name;
     }
 
+    @NotNull
     public String getToken() {
         return token;
     }
 
     public List<String> getUnits() {
-        return units;
+        return units == null ? ImmutableList.of() : ImmutableList.copyOf(units);
     }
 
     public List<String> getIncidents() {
-        return incidents;
+        return incidents == null ? ImmutableList.of() : ImmutableList.copyOf(incidents);
     }
 
     @Nullable

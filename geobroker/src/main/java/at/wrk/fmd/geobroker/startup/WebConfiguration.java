@@ -6,9 +6,8 @@
 
 package at.wrk.fmd.geobroker.startup;
 
-import com.fatboyindustrial.gsonjavatime.Converters;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
@@ -19,19 +18,23 @@ import java.util.List;
 
 @Configuration
 public class WebConfiguration extends WebMvcConfigurerAdapter {
+
+    private final Gson gson;
+
+    @Autowired
+    public WebConfiguration(final Gson gson) {
+        this.gson = gson;
+    }
+
     @Override
     public void configureMessageConverters(final List<HttpMessageConverter<?>> converters) {
         GsonHttpMessageConverter httpMessageConverter = new GsonHttpMessageConverter();
-        httpMessageConverter.setGson(createGson());
+        httpMessageConverter.setGson(gson);
         converters.add(httpMessageConverter);
     }
 
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-    }
-
-    private static Gson createGson() {
-        return Converters.registerAll(new GsonBuilder()).create();
     }
 }

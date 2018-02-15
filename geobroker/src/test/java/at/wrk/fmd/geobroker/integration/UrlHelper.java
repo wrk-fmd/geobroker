@@ -6,15 +6,15 @@
 
 package at.wrk.fmd.geobroker.integration;
 
-public final class UrlHelper {
+final class UrlHelper {
     private UrlHelper() {
     }
 
-    public static String privateApiUrl(final String suffix) {
+    static String privateApiUrl(final String suffix) {
         return "/api/v1/private" + suffix;
     }
 
-    public static String publicApiUrl(final String suffix) {
+    static String publicApiUrl(final String suffix) {
         return "/api/v1/public" + suffix;
     }
 }

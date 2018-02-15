@@ -9,6 +9,8 @@ package at.wrk.fmd.geobroker.contract.generic;
 import at.wrk.fmd.geobroker.contract.ContractToStringStyle;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -21,8 +23,8 @@ public class Position extends Point {
     private final Double speed;
 
     public Position(
-            final Double latitude,
-            final Double longitude,
+            final double latitude,
+            final double longitude,
             final Instant timestamp,
             final Double accuracy,
             final Double heading,
@@ -34,18 +36,22 @@ public class Position extends Point {
         this.speed = speed;
     }
 
+    @NotNull
     public Instant getTimestamp() {
         return timestamp;
     }
 
+    @Nullable
     public Double getAccuracy() {
         return accuracy;
     }
 
+    @Nullable
     public Double getHeading() {
         return heading;
     }
 
+    @Nullable
     public Double getSpeed() {
         return speed;
     }

@@ -10,7 +10,9 @@ import at.wrk.fmd.geobroker.contract.ContractToStringStyle;
 import at.wrk.fmd.geobroker.contract.generic.Point;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Incident implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -29,7 +31,7 @@ public class Incident implements Serializable {
             final Boolean blue,
             final String info,
             final Point location) {
-        this.id = id;
+        this.id = Objects.requireNonNull(id);
         this.type = type;
         this.priority = priority;
         this.blue = blue;
@@ -37,6 +39,7 @@ public class Incident implements Serializable {
         this.location = location;
     }
 
+    @NotNull
     public String getId() {
         return id;
     }

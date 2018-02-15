@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.Optional;
 import java.util.Set;
@@ -40,7 +41,7 @@ public class UnitController {
     @ResponseBody
     public ResponseEntity<ConfiguredUnit> updateUnit(
             @PathVariable("unitId") final String unitId,
-            @RequestBody final ConfiguredUnit unit) {
+            @RequestBody @Valid final ConfiguredUnit unit) {
         ConfiguredUnit updatedUnit = new ConfiguredUnit(
                 unitId,
                 unit.getName(),

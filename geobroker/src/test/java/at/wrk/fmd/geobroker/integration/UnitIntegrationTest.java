@@ -6,43 +6,29 @@
 
 package at.wrk.fmd.geobroker.integration;
 
-import at.wrk.fmd.geobroker.contract.generic.Position;
 import at.wrk.fmd.geobroker.contract.scope.ScopeResponse;
 import at.wrk.fmd.geobroker.contract.unit.ConfiguredUnit;
 import at.wrk.fmd.geobroker.contract.unit.GetAllUnitsResponse;
-import at.wrk.fmd.geobroker.startup.GeoBrokerBootstrapper;
-import at.wrk.fmd.geobroker.startup.GeobrokerPropertyConfiguration;
-import at.wrk.fmd.geobroker.startup.WebConfiguration;
 import at.wrk.fmd.geobroker.util.Positions;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import org.junit.Ignore;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.time.Instant;
 
 import static at.wrk.fmd.geobroker.integration.UrlHelper.privateApiUrl;
 import static at.wrk.fmd.geobroker.integration.UrlHelper.publicApiUrl;
 import static at.wrk.fmd.geobroker.util.ConfiguredUnits.randomUnit;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {GeoBrokerBootstrapper.class, WebConfiguration.class, GeobrokerPropertyConfiguration.class})
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class UnitIntegrationTest {
-
-    @Autowired
-    private TestRestTemplate restTemplate;
+public class UnitIntegrationTest extends AbstractRestIntegrationTest {
 
     @Test
     public void createdUnitCanBeRetrieved() {
@@ -62,7 +48,6 @@ public class UnitIntegrationTest {
         assertThat(response.getConfiguredUnits(), contains(samePropertyValuesAs(configuredUnit)));
     }
 
-    @Ignore("Spring boot fails to serialize Instants in the test code...")
     @Test
     public void unitRequestsScope_unitHasOtherUnitsAssigned_unitRetrievesPositionUpdates() {
         String unitId = "test-unit-0";
@@ -76,22 +61,47 @@ public class UnitIntegrationTest {
         ConfiguredUnit configuredUnit = randomUnit(unitId, token, ImmutableList.of(referencedUnitId1, referencedUnitId2));
         restTemplate.put(privateApiUrl("/units/" + unitId), configuredUnit);
 
-        postPositionUpdate(unitId, token);
-        postPositionUpdate(referencedUnitId1, token);
-        postPositionUpdate(referencedUnitId2, token);
+        postPositionUpdate(unitId, token, Positions.random());
+        postPositionUpdate(referencedUnitId1, token, Positions.random());
+        postPositionUpdate(referencedUnitId2, token, Positions.random());
 
-        ScopeResponse response = restTemplate.getForObject(publicApiUrl("/scope/" + unitId), ScopeResponse.class, ImmutableMap.of("token", token));
+        ScopeResponse response = getScopeForUnit(unitId, token);
         assertThat(response.getUnits(), hasSize(3));
         response.getUnits().forEach(liveUnit -> assertThat("Valid Position shall be set for unit", liveUnit.getCurrentPosition(), notNullValue()));
     }
 
-    private void postPositionUpdate(final String unitId, final String token) {
-        restTemplate.postForObject(publicApiUrl("/positions/" + unitId), Positions.random(), Position.class, ImmutableMap.of("token", token));
+    @Test
+    public void unitsSetPositionWithoutValues_respondWithError() {
+
+        String token = "test token";
+        String unitId = "unit-id";
+        createConfiguredUnit(unitId, token);
+
+        FakePosition invalidPosition = createInvalidPosition();
+        ResponseEntity<String> response = restTemplate.postForEntity(publicApiUrl("/positions/" + unitId + "?token=" + token), invalidPosition, String.class);
+
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.BAD_REQUEST));
     }
 
-    private ConfiguredUnit createConfiguredUnit(final String unitId, final String token) {
-        ConfiguredUnit configuredUnit = randomUnit(unitId, token);
-        restTemplate.put(privateApiUrl("/units/" + unitId), configuredUnit);
-        return configuredUnit;
+    private FakePosition createInvalidPosition() {
+        return new FakePosition(RandomUtils.nextDouble(5, 20), Instant.now());
+    }
+
+    private static class FakePosition {
+        private final double latitude;
+        private final Instant timestamp;
+
+        private FakePosition(final double latitude, final Instant timestamp) {
+            this.latitude = latitude;
+            this.timestamp = timestamp;
+        }
+
+        public double getLatitude() {
+            return latitude;
+        }
+
+        public Instant getTimestamp() {
+            return timestamp;
+        }
     }
 }
