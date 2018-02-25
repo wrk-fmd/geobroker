@@ -8,11 +8,11 @@ info:
     > **Note:** error responses are not yet designed. Expect plain text messages in the response for now.
 
     > **Note:** the geobroker tracks three types of objects: units, incidents, and POIs. POIs are neither defined nor implemented yet.
-  version: v0.1
+  version: v1
   license:
     name: MIT
 servers:
-  - url: /api/v0.1
+  - url: /api/v1
 tags:
   - name: Public API
     description: |
@@ -42,7 +42,7 @@ tags:
       Example: Unit A is allowed to see Unit B and Incident X.
       Unit A gets the ID of Unit B and the ID of Incident X assigned, to be able to see them.
 paths:
-  /units:
+  /private/units:
     get:
       tags: ["Private Unit CRUD"]
       operationId: getAllUnits
@@ -58,7 +58,7 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/unit'
-  /units/{unitId}:
+  /private/units/{unitId}:
     parameters:
       - $ref: '#/components/parameters/unitId'
     get:
@@ -97,7 +97,7 @@ paths:
       responses:
         '200':
           description: always returns a success
-  /units/{unitId}/units:
+  /private/units/{unitId}/units:
     parameters:
       - $ref: '#/components/parameters/unitId'
     get:
@@ -127,7 +127,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/relations'
-  /units/{unitId}/incidents:
+  /private/units/{unitId}/incidents:
     parameters:
       - $ref: '#/components/parameters/unitId'
     get:
@@ -157,7 +157,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/relations'
-  /incidents:
+  /private/incidents:
     get:
       tags: ["Private Incident CRUD"]
       operationId: getAllIncidents
@@ -173,7 +173,7 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/incident'
-  /incidents/{incidentId}:
+  /private/incidents/{incidentId}:
     parameters:
       - $ref: '#/components/parameters/incidentId'
     get:
@@ -212,7 +212,7 @@ paths:
       responses:
         '200':
           description: returns the deleted incident
-  /scope/{unitId}:
+  /public/scope/{unitId}:
     parameters:
       - $ref: '#/components/parameters/unitId'
       - $ref: '#/components/parameters/token'
@@ -237,7 +237,7 @@ paths:
                       $ref: '#/components/schemas/publicIncident'
         '403':
           description: unit identifier and token combination is invalid
-  /positions/{unitId}:
+  /public/positions/{unitId}:
     parameters:
       - $ref: '#/components/parameters/unitId'
       - $ref: '#/components/parameters/token'
