@@ -2,7 +2,7 @@
 BASE=$(dirname $(dirname $(readlink -en $0)))
 
 docker run -it --rm \
-	-v "$BASE/geobroker:/usr/src/mymaven" \
+	-v "$BASE:/usr/src/mymaven" \
 	-w /usr/src/mymaven \
 	maven:alpine mvn \
 		"$@" package
