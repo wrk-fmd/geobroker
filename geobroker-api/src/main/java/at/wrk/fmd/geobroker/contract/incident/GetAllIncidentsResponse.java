@@ -11,6 +11,7 @@ import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 public class GetAllIncidentsResponse implements Serializable {
@@ -18,7 +19,7 @@ public class GetAllIncidentsResponse implements Serializable {
 
     private final List<Incident> configuredIncidents;
 
-    public GetAllIncidentsResponse(final List<Incident> configuredIncidents) {
+    public GetAllIncidentsResponse(final Collection<Incident> configuredIncidents) {
         this.configuredIncidents = ImmutableList.copyOf(configuredIncidents);
     }
 
