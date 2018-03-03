@@ -6,11 +6,12 @@
 
 package at.wrk.fmd.geobroker.service.scope;
 
+import at.wrk.fmd.geobroker.contract.incident.Incident;
 import at.wrk.fmd.geobroker.contract.scope.ScopeResponse;
 import at.wrk.fmd.geobroker.contract.unit.ConfiguredUnit;
 import at.wrk.fmd.geobroker.contract.unit.LiveUnit;
+import at.wrk.fmd.geobroker.repository.IncidentRepository;
 import at.wrk.fmd.geobroker.repository.UnitRepository;
-import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +25,16 @@ import java.util.stream.Collectors;
 public class SimpleScopeService implements ScopeService {
 
     private final UnitRepository unitRepository;
+    private final IncidentRepository incidentRepository;
     private final LiveUnitMapper mapper;
 
     @Autowired
     public SimpleScopeService(
             final UnitRepository unitRepository,
+            final IncidentRepository incidentRepository,
             final LiveUnitMapper mapper) {
         this.unitRepository = unitRepository;
+        this.incidentRepository = incidentRepository;
         this.mapper = mapper;
     }
 
@@ -50,7 +54,14 @@ public class SimpleScopeService implements ScopeService {
                         .collect(Collectors.toList());
                 List<LiveUnit> liveUnits = mergeToList(ownLiveUnit, referencedLiveUnits);
 
-                response = Optional.of(new ScopeResponse(liveUnits, ImmutableList.of()));
+                List<Incident> incidents = unit.get().getIncidents()
+                        .stream()
+                        .map(incidentRepository::getIncident)
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
+                        .collect(Collectors.toList());
+
+                response = Optional.of(new ScopeResponse(liveUnits, incidents));
             }
         }
 
