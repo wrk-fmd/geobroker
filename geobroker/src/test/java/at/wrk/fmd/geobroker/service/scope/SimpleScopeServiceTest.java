@@ -7,6 +7,7 @@
 package at.wrk.fmd.geobroker.service.scope;
 
 import at.wrk.fmd.geobroker.contract.scope.ScopeResponse;
+import at.wrk.fmd.geobroker.repository.IncidentRepository;
 import at.wrk.fmd.geobroker.repository.UnitRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,12 +24,14 @@ public class SimpleScopeServiceTest {
 
     private SimpleScopeService sut;
     private UnitRepository unitRepository;
+    private IncidentRepository incidentRepository;
 
     @Before
     public void init() {
         LiveUnitMapper mapper = mock(LiveUnitMapper.class);
         unitRepository = mock(UnitRepository.class);
-        sut = new SimpleScopeService(unitRepository, mapper);
+        incidentRepository = mock(IncidentRepository.class);
+        sut = new SimpleScopeService(unitRepository, incidentRepository, mapper);
     }
 
     @Test
