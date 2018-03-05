@@ -18,7 +18,7 @@ public class GeobrokerPropertyConfiguration {
      * See https://jira.springsource.org/browse/SPR-8539.
      */
     @Bean
-    public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
 }
