@@ -7,10 +7,13 @@
 package at.wrk.fmd.geobroker.service.scope;
 
 import at.wrk.fmd.geobroker.contract.incident.Incident;
+import at.wrk.fmd.geobroker.contract.poi.GetAllPoisResponse;
+import at.wrk.fmd.geobroker.contract.poi.PointOfInterest;
 import at.wrk.fmd.geobroker.contract.scope.ScopeResponse;
 import at.wrk.fmd.geobroker.contract.unit.ConfiguredUnit;
 import at.wrk.fmd.geobroker.contract.unit.LiveUnit;
 import at.wrk.fmd.geobroker.repository.IncidentRepository;
+import at.wrk.fmd.geobroker.repository.PoiRepository;
 import at.wrk.fmd.geobroker.repository.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,15 +30,18 @@ public class SimpleScopeService implements ScopeService {
 
     private final UnitRepository unitRepository;
     private final IncidentRepository incidentRepository;
+    private final PoiRepository poiRepository;
     private final LiveUnitMapper mapper;
 
     @Autowired
     public SimpleScopeService(
             final UnitRepository unitRepository,
             final IncidentRepository incidentRepository,
+            final PoiRepository poiRepository,
             final LiveUnitMapper mapper) {
         this.unitRepository = unitRepository;
         this.incidentRepository = incidentRepository;
+        this.poiRepository = poiRepository;
         this.mapper = mapper;
     }
 
@@ -63,6 +70,17 @@ public class SimpleScopeService implements ScopeService {
 
                 response = Optional.of(new ScopeResponse(liveUnits, incidents));
             }
+        }
+
+        return response;
+    }
+
+    @Override
+    public Optional<GetAllPoisResponse> getPoisForUnit(String unitId, String token) {
+        Optional<GetAllPoisResponse> response = Optional.empty();
+        if (unitRepository.isTokenAuthorized(unitId, token)) {
+            Set<PointOfInterest> allPois = poiRepository.getAll();
+            response = Optional.of(new GetAllPoisResponse(allPois));
         }
 
         return response;
