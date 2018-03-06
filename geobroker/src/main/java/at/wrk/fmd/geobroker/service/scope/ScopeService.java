@@ -6,6 +6,7 @@
 
 package at.wrk.fmd.geobroker.service.scope;
 
+import at.wrk.fmd.geobroker.contract.poi.GetAllPoisResponse;
 import at.wrk.fmd.geobroker.contract.scope.ScopeResponse;
 
 import java.util.Optional;
@@ -15,4 +16,9 @@ public interface ScopeService {
      * Returns scope of the given unit. If the token is not valid, an empty optional is returned.
      */
     Optional<ScopeResponse> getScopeForUnit(String unitId, String token);
+
+    /**
+     * Returns POIs for the given unit. If the token is not valid, an empty optional is returned.
+     */
+    Optional<GetAllPoisResponse> getPoisForUnit(String unitId, String token);
 }
