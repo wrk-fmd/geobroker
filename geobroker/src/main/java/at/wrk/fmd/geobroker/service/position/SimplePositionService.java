@@ -45,6 +45,7 @@ public class SimplePositionService implements PositionService {
         if (unitRepository.isTokenAuthorized(unitId, token)) {
             Position positionWithCorrectTimestamp = correctTimestampIfNeeded(updatedPosition);
             positionRepository.storePosition(unitId, positionWithCorrectTimestamp);
+            LOG.info("#positionupdate Position was successfully updated by unit '{}'", unitId);
             result = PositionUpdateResult.UPDATED;
         }
 

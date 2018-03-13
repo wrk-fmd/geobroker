@@ -2,9 +2,9 @@
 <Configuration status="WARN">
 
     <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
+        <File name="file_geobroker" fileName="geobroker.log" append="true">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{1.} - %msg%n"/>
-        </Console>
+        </File>
     </Appenders>
 
     <Loggers>
@@ -13,7 +13,7 @@
         <Logger name="at.wrk.fmd.geobroker.repository" level="trace" />
 
         <Root level="info">
-            <AppenderRef ref="Console"/>
+            <AppenderRef ref="file_geobroker"/>
         </Root>
     </Loggers>
 </Configuration>

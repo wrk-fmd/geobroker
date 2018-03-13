@@ -8,6 +8,8 @@ package at.wrk.fmd.geobroker.service.unit;
 
 import at.wrk.fmd.geobroker.contract.unit.ConfiguredUnit;
 import at.wrk.fmd.geobroker.repository.UnitRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import java.util.Set;
 
 @Service
 public class SimpleUnitService implements UnitService {
+    private static final Logger LOG = LoggerFactory.getLogger(SimpleUnitService.class);
 
     private final UnitRepository unitRepository;
 
@@ -29,6 +32,7 @@ public class SimpleUnitService implements UnitService {
     public void createOrUpdateUnit(final ConfiguredUnit unit) {
         Objects.requireNonNull(unit, "Unit to update must not be null");
         unitRepository.updateUnit(unit);
+        LOG.info("#unitupdate Unit was updated successfully. unitId: '{}'", unit.getId());
     }
 
     @Override
