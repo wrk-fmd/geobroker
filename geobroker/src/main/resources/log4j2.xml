@@ -10,7 +10,7 @@
     <Loggers>
         <Logger name="at.wrk.fmd.geobroker" level="debug" />
 
-        <Logger name="at.wrk.fmd.geobroker.repository" level="trace" />
+        <!--<Logger name="at.wrk.fmd.geobroker.repository" level="trace" />-->
 
         <Root level="info">
             <AppenderRef ref="Console"/>
