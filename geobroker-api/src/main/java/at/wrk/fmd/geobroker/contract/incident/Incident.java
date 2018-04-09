@@ -24,7 +24,6 @@ public class Incident implements Serializable {
     private final Boolean blue;
     private final String info;
     private final Point location;
-
     private final Map<String, String> assignedUnits;
 
     public Incident(
@@ -69,7 +68,9 @@ public class Incident implements Serializable {
         return location;
     }
 
-    public Map<String, String> getAssignedUnits() { return assignedUnits; }
+    public Map<String, String> getAssignedUnits() {
+        return assignedUnits;
+    }
 
     @Override
     public String toString() {
