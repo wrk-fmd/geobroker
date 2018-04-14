@@ -28,7 +28,7 @@ import static at.wrk.fmd.geobroker.util.ConfiguredUnits.randomUnit;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {GeoBrokerBootstrapper.class, WebConfiguration.class, GeobrokerPropertyConfiguration.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class AbstractRestIntegrationTest {
+public abstract class AbstractRestIntegrationTest {
 
     @Autowired
     protected TestRestTemplate restTemplate;
