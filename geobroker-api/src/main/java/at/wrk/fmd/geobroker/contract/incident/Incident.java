@@ -12,6 +12,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Objects;
 
 public class Incident implements Serializable {
@@ -23,6 +24,7 @@ public class Incident implements Serializable {
     private final Boolean blue;
     private final String info;
     private final Point location;
+    private final Map<String, String> assignedUnits;
 
     public Incident(
             final String id,
@@ -30,13 +32,15 @@ public class Incident implements Serializable {
             final Boolean priority,
             final Boolean blue,
             final String info,
-            final Point location) {
+            final Point location,
+            final Map<String, String> assignedUnits) {
         this.id = Objects.requireNonNull(id);
         this.type = type;
         this.priority = priority;
         this.blue = blue;
         this.info = info;
         this.location = location;
+        this.assignedUnits = assignedUnits;
     }
 
     @NotNull
@@ -64,6 +68,10 @@ public class Incident implements Serializable {
         return location;
     }
 
+    public Map<String, String> getAssignedUnits() {
+        return assignedUnits;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ContractToStringStyle.STYLE)
@@ -73,6 +81,7 @@ public class Incident implements Serializable {
                 .append("blue", blue)
                 .append("info", info)
                 .append("location", location)
+                .append("assignedUnits", assignedUnits)
                 .toString();
     }
 }

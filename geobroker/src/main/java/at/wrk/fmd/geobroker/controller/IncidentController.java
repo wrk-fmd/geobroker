@@ -48,7 +48,8 @@ public class IncidentController {
                 incident.getPriority(),
                 incident.getBlue(),
                 incident.getInfo(),
-                incident.getLocation());
+                incident.getLocation(),
+                incident.getAssignedUnits());
 
         incidentService.createOrUpdateIncident(updatedIncident);
         return ResponseEntity.ok(updatedIncident);
