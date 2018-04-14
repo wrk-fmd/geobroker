@@ -8,6 +8,7 @@ package at.wrk.fmd.geobroker.contract.incident;
 
 import at.wrk.fmd.geobroker.contract.ContractToStringStyle;
 import at.wrk.fmd.geobroker.contract.generic.Point;
+import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.validation.constraints.NotNull;
@@ -40,7 +41,7 @@ public class Incident implements Serializable {
         this.blue = blue;
         this.info = info;
         this.location = location;
-        this.assignedUnits = assignedUnits;
+        this.assignedUnits = assignedUnits == null ? ImmutableMap.of() : ImmutableMap.copyOf(assignedUnits);
     }
 
     @NotNull
