@@ -27,7 +27,6 @@ Example:
 
 Properties:
 
-* `timestamp`: ISO 8601 representation when the position data was acquired.
 * (optional) `latitude` and `longitude`: floating point number of latitude and longitude.
 
 Example:
@@ -35,8 +34,7 @@ Example:
 ```json
 {
   "latitude": 48.1922,
-  "longitude": 16.3906,
-  "timestamp": "2019-01-19T08:23:16.240Z"
+  "longitude": 16.3906
 }
 ```
 
