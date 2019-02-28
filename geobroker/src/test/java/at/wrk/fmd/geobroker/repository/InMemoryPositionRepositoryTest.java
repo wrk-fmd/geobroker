@@ -15,6 +15,8 @@ import java.time.Instant;
 import java.util.Optional;
 
 import static com.github.npathai.hamcrestopt.OptionalMatchers.hasValue;
+import static com.github.npathai.hamcrestopt.OptionalMatchers.isEmpty;
+import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresent;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -63,5 +65,36 @@ public class InMemoryPositionRepositoryTest {
 
         Optional<Position> storedPosition = sut.getPosition(unitId);
         assertThat("Outdated position update shall NOT be stored.", storedPosition, hasValue(equalTo(position)));
+    }
+
+    @Test
+    public void cleanupOutdatedPositions_olderPositionIsDeleted() {
+        Instant timestamp = Instant.now();
+        Position position = Positions.createPosition(timestamp);
+
+        String unitId = "a unit id";
+        sut.storePosition(unitId, position);
+        // Store multiple units to test concurency concern
+        sut.storePosition("another unit", Positions.createPosition(timestamp));
+        sut.storePosition("third unit", Positions.createPosition(timestamp.plusSeconds(20)));
+
+        sut.cleanupOutdatedPositions(timestamp.plusSeconds(10));
+
+        Optional<Position> storedPosition = sut.getPosition(unitId);
+        assertThat(storedPosition, isEmpty());
+    }
+
+    @Test
+    public void cleanupOutdatedPositions_newerPositionIsKept() {
+        Instant timestamp = Instant.now();
+        Position position = Positions.createPosition(timestamp);
+
+        String unitId = "a unit id";
+        sut.storePosition(unitId, position);
+
+        sut.cleanupOutdatedPositions(timestamp.minusSeconds(10));
+
+        Optional<Position> storedPosition = sut.getPosition(unitId);
+        assertThat(storedPosition, isPresent());
     }
 }

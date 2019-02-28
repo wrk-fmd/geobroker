@@ -21,7 +21,7 @@ import java.time.Clock;
 public class SimplePositionService implements PositionService {
     private static final Logger LOG = LoggerFactory.getLogger(SimplePositionService.class);
 
-     private final UnitRepository unitRepository;
+    private final UnitRepository unitRepository;
     private final PositionRepository positionRepository;
     private final boolean useClientTime;
     private final Clock clock;
@@ -45,11 +45,19 @@ public class SimplePositionService implements PositionService {
         if (unitRepository.isTokenAuthorized(unitId, token)) {
             Position positionWithCorrectTimestamp = correctTimestampIfNeeded(updatedPosition);
             positionRepository.storePosition(unitId, positionWithCorrectTimestamp);
-            LOG.info("#positionupdate Position was successfully updated by unit '{}'", unitId);
+            logUpdatedPosition(unitId, updatedPosition);
             result = PositionUpdateResult.UPDATED;
         }
 
         return result;
+    }
+
+    private void logUpdatedPosition(final String unitId, final Position updatedPosition) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("#positionupdate Position was successfully updated by unit '{}'. Position data: {}", unitId, updatedPosition);
+        } else {
+            LOG.info("#positionupdate Position was successfully updated by unit '{}'", unitId);
+        }
     }
 
     private Position correctTimestampIfNeeded(final Position updatedPosition) {
@@ -57,7 +65,7 @@ public class SimplePositionService implements PositionService {
         if (!useClientTime) {
             corrected = getPositionWithCurrentTimestamp(updatedPosition);
         } else if (updatedPosition.getTimestamp().compareTo(clock.instant()) > 0) {
-            LOG.info("Client provided time in the future. Current time is used as receive time. Provided position: {}", updatedPosition);
+            LOG.info("Client provided time in the future. Current time is used as receive time. Provided timestamp: {}", updatedPosition.getTimestamp());
             corrected = getPositionWithCurrentTimestamp(updatedPosition);
         }
 

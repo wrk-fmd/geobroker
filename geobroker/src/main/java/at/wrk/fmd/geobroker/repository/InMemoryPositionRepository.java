@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Nullable;
+import java.time.Instant;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -38,6 +39,17 @@ public class InMemoryPositionRepository implements PositionRepository {
     @Override
     public Optional<Position> getPosition(final String unitId) {
         return Optional.ofNullable(storage.get(unitId));
+    }
+
+    @Override
+    public void cleanupOutdatedPositions(final Instant deletionThreshold) {
+        LOG.info("Cleaning up position data which is older than {}.", deletionThreshold);
+
+        for (Map.Entry<String, Position> entry : storage.entrySet()) {
+            if (deletionThreshold.compareTo(entry.getValue().getTimestamp()) > 0) {
+                storage.remove(entry.getKey());
+            }
+        }
     }
 
     private static Position getMoreRecentPosition(@Nullable final Position oldPosition, final Position newPosition) {
