@@ -74,6 +74,25 @@ public class Incident implements Serializable {
     }
 
     @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Incident incident = (Incident) o;
+        return Objects.equals(id, incident.id) &&
+                Objects.equals(type, incident.type) &&
+                Objects.equals(priority, incident.priority) &&
+                Objects.equals(blue, incident.blue) &&
+                Objects.equals(info, incident.info) &&
+                Objects.equals(location, incident.location) &&
+                Objects.equals(assignedUnits, incident.assignedUnits);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, type, priority, blue, info, location, assignedUnits);
+    }
+
+    @Override
     public String toString() {
         return new ToStringBuilder(this, ContractToStringStyle.STYLE)
                 .append("id", id)

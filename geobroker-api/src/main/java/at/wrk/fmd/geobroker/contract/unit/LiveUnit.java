@@ -12,6 +12,7 @@ import at.wrk.fmd.geobroker.contract.generic.Position;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * The POJO for the public unit view.
@@ -56,6 +57,23 @@ public class LiveUnit implements Serializable {
 
     public Position getCurrentPosition() {
         return currentPosition;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LiveUnit liveUnit = (LiveUnit) o;
+        return Objects.equals(id, liveUnit.id) &&
+                Objects.equals(name, liveUnit.name) &&
+                Objects.equals(lastPoint, liveUnit.lastPoint) &&
+                Objects.equals(targetPoint, liveUnit.targetPoint) &&
+                Objects.equals(currentPosition, liveUnit.currentPosition);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, lastPoint, targetPoint, currentPosition);
     }
 
     @Override

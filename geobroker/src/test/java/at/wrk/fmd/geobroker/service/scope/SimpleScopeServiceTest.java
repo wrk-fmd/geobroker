@@ -42,7 +42,7 @@ public class SimpleScopeServiceTest {
     public void tokenNotAuthorized_returnEmptyScopeOptional() {
         when(unitRepository.isTokenAuthorized(any(), any())).thenReturn(false);
 
-        Optional<ScopeResponse> scopeForUnit = sut.getScopeForUnit("unit id", "token");
+        Optional<ScopeResponse> scopeForUnit = sut.getScopeForUnit("unit id", "token", 42);
 
         assertThat(scopeForUnit, isEmpty());
     }

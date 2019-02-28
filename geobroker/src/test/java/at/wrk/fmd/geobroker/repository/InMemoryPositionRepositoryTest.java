@@ -11,7 +11,10 @@ import at.wrk.fmd.geobroker.util.Positions;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.Clock;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import static com.github.npathai.hamcrestopt.OptionalMatchers.hasValue;
@@ -22,10 +25,12 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class InMemoryPositionRepositoryTest {
     private InMemoryPositionRepository sut;
+    private Instant fixedInstant;
 
     @Before
     public void init() {
-        sut = new InMemoryPositionRepository();
+        fixedInstant = Instant.now();
+        sut = new InMemoryPositionRepository(Clock.fixed(fixedInstant, ZoneId.systemDefault()));
     }
 
     @Test
@@ -96,5 +101,16 @@ public class InMemoryPositionRepositoryTest {
 
         Optional<Position> storedPosition = sut.getPosition(unitId);
         assertThat(storedPosition, isPresent());
+    }
+
+    @Test
+    public void positionIsOutdated_noPositionReturned() {
+        Position position = Positions.createPosition(fixedInstant.minus(15, ChronoUnit.MINUTES));
+        String unitId = "unit id";
+
+        sut.storePosition(unitId, position);
+
+        Optional<Position> storedPosition = sut.getPosition(unitId, 10);
+        assertThat(storedPosition, isEmpty());
     }
 }

@@ -15,7 +15,7 @@ public interface ScopeService {
     /**
      * Returns scope of the given unit. If the token is not valid, an empty optional is returned.
      */
-    Optional<ScopeResponse> getScopeForUnit(String unitId, String token);
+    Optional<ScopeResponse> getScopeForUnit(String unitId, String token, int maximumDataAge);
 
     /**
      * Returns POIs for the given unit. If the token is not valid, an empty optional is returned.

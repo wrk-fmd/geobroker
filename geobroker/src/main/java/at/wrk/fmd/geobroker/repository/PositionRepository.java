@@ -16,6 +16,8 @@ public interface PositionRepository {
 
     Optional<Position> getPosition(String unitId);
 
+    Optional<Position> getPosition(String unitId, int maximumDataAge);
+
     /**
      * Deletes all position data with a timestamp of <code>deletionThreshold</code> or older.
      */

@@ -25,8 +25,8 @@ public class LiveUnitMapper {
         this.positionRepository = positionRepository;
     }
 
-    public LiveUnit map(final ConfiguredUnit unit) {
-        Optional<Position> position = positionRepository.getPosition(unit.getId());
+    public LiveUnit map(final ConfiguredUnit unit, final int maximumDataAge) {
+        Optional<Position> position = positionRepository.getPosition(unit.getId(), maximumDataAge);
         return new LiveUnit(unit.getId(), unit.getName(), unit.getLastPoint(), unit.getTargetPoint(), position.orElse(null));
     }
 }

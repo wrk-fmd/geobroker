@@ -9,10 +9,13 @@ package at.wrk.fmd.geobroker.repository;
 import at.wrk.fmd.geobroker.contract.generic.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Nullable;
+import java.time.Clock;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -23,8 +26,11 @@ public class InMemoryPositionRepository implements PositionRepository {
     private static final Logger LOG = LoggerFactory.getLogger(InMemoryPositionRepository.class);
 
     private final Map<String, Position> storage;
+    private final Clock clock;
 
-    public InMemoryPositionRepository() {
+    @Autowired
+    public InMemoryPositionRepository(final Clock clock) {
+        this.clock = clock;
         this.storage = new ConcurrentHashMap<>();
     }
 
@@ -39,6 +45,13 @@ public class InMemoryPositionRepository implements PositionRepository {
     @Override
     public Optional<Position> getPosition(final String unitId) {
         return Optional.ofNullable(storage.get(unitId));
+    }
+
+    @Override
+    public Optional<Position> getPosition(final String unitId, final int maximumDataAgeInMinutes) {
+        Instant dataAgeThreshold = clock.instant().minus(maximumDataAgeInMinutes, ChronoUnit.MINUTES);
+        return getPosition(unitId)
+                .filter(position -> dataAgeThreshold.compareTo(position.getTimestamp()) <= 0);
     }
 
     @Override

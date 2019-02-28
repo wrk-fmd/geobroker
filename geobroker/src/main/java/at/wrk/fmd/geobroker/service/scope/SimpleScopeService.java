@@ -46,18 +46,18 @@ public class SimpleScopeService implements ScopeService {
     }
 
     @Override
-    public Optional<ScopeResponse> getScopeForUnit(final String unitId, final String token) {
+    public Optional<ScopeResponse> getScopeForUnit(final String unitId, final String token, final int maximumDataAge) {
         Optional<ScopeResponse> response = Optional.empty();
         if (unitRepository.isTokenAuthorized(unitId, token)) {
             Optional<ConfiguredUnit> unit = unitRepository.getUnit(unitId);
             if (unit.isPresent()) {
-                LiveUnit ownLiveUnit = mapper.map(unit.get());
+                LiveUnit ownLiveUnit = mapper.map(unit.get(), maximumDataAge);
                 List<LiveUnit> referencedLiveUnits = unit.get().getUnits()
                         .stream()
                         .map(unitRepository::getUnit)
                         .filter(Optional::isPresent)
                         .map(Optional::get)
-                        .map(mapper::map)
+                        .map(configuredUnit -> mapper.map(configuredUnit, maximumDataAge))
                         .collect(Collectors.toList());
                 List<LiveUnit> liveUnits = mergeToList(ownLiveUnit, referencedLiveUnits);
 
@@ -90,6 +90,6 @@ public class SimpleScopeService implements ScopeService {
         ArrayList<T> liveUnits = new ArrayList<>();
         liveUnits.add(singleObject);
         liveUnits.addAll(objectCollection);
-        return liveUnits;
+        return liveUnits.stream().distinct().collect(Collectors.toList());
     }
 }
