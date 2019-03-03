@@ -13,5 +13,6 @@ public final class ContractToStringStyle extends ToStringStyle {
 
     private ContractToStringStyle() {
         setUseShortClassName(true);
+        setUseIdentityHashCode(false);
     }
 }
