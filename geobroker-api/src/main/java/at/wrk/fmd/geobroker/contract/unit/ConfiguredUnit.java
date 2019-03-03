@@ -30,6 +30,7 @@ public class ConfiguredUnit implements Serializable {
     private final List<String> incidents;
     private final Point lastPoint;
     private final Point targetPoint;
+    private final Boolean isAvailableForDispatching;
 
     public ConfiguredUnit(
             final String id,
@@ -38,7 +39,7 @@ public class ConfiguredUnit implements Serializable {
             final List<String> units,
             final List<String> incidents,
             final Point lastPoint,
-            final Point targetPoint) {
+            final Point targetPoint, final Boolean isAvailableForDispatching) {
         this.id = Objects.requireNonNull(id, "Unit identifier must not be null.");
         this.name = Objects.requireNonNull(name, "Display name of unit must not be null.");
         this.token = Objects.requireNonNull(token, "Token of unit must not be null.");
@@ -46,6 +47,7 @@ public class ConfiguredUnit implements Serializable {
         this.incidents = incidents == null ? ImmutableList.of() : ImmutableList.copyOf(incidents);
         this.lastPoint = lastPoint;
         this.targetPoint = targetPoint;
+        this.isAvailableForDispatching = isAvailableForDispatching;
     }
 
     @NotNull
@@ -81,6 +83,11 @@ public class ConfiguredUnit implements Serializable {
         return targetPoint;
     }
 
+    @Nullable
+    public Boolean getAvailableForDispatching() {
+        return isAvailableForDispatching;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
@@ -92,12 +99,13 @@ public class ConfiguredUnit implements Serializable {
                 Objects.equals(units, that.units) &&
                 Objects.equals(incidents, that.incidents) &&
                 Objects.equals(lastPoint, that.lastPoint) &&
-                Objects.equals(targetPoint, that.targetPoint);
+                Objects.equals(targetPoint, that.targetPoint) &&
+                Objects.equals(isAvailableForDispatching, that.isAvailableForDispatching);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, token, units, incidents, lastPoint, targetPoint);
+        return Objects.hash(id, name, token, units, incidents, lastPoint, targetPoint, isAvailableForDispatching);
     }
 
     @Override
@@ -110,6 +118,7 @@ public class ConfiguredUnit implements Serializable {
                 .append("incidents", incidents)
                 .append("lastPoint", lastPoint)
                 .append("targetPoint", targetPoint)
+                .append("isAvailableForDispatching", isAvailableForDispatching)
                 .toString();
     }
 }

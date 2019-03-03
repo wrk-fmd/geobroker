@@ -47,6 +47,7 @@ Properties:
 * (optional) `lastPoint`: The [point] of the last status update of the unit.
 * (optional) `targetPoint`: The destination [point] of the unit.
 * (optional) `currentPosition`: The [position] which was last published by the unit.
+* (optional) `isAvailableForDispatching`: A boolean value indicating if the unit can be dispatched to a new incident right now.
 
 Example:
 
@@ -69,7 +70,8 @@ Example:
     "speed": 1.279,
     "latitude": 47.654,
     "longitude": 12.253
-  }
+  },
+  "isAvailableForDispatching": true
 }
 ```
 
@@ -170,7 +172,8 @@ Example of a success response:
         "speed": 1.279,
         "latitude": 47.554,
         "longitude": 12.723
-      }
+      },
+      "isAvailableForDispatching": true
     }
   ],
   "incidents": [

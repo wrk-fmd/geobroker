@@ -25,18 +25,21 @@ public class LiveUnit implements Serializable {
     private final Point lastPoint;
     private final Point targetPoint;
     private final Position currentPosition;
+    private final Boolean isAvailableForDispatching;
 
     public LiveUnit(
             final String id,
             final String name,
             final Point lastPoint,
             final Point targetPoint,
-            final Position currentPosition) {
+            final Position currentPosition,
+            final Boolean isAvailableForDispatching) {
         this.id = id;
         this.name = name;
         this.lastPoint = lastPoint;
         this.targetPoint = targetPoint;
         this.currentPosition = currentPosition;
+        this.isAvailableForDispatching = isAvailableForDispatching;
     }
 
     public String getId() {
@@ -59,6 +62,10 @@ public class LiveUnit implements Serializable {
         return currentPosition;
     }
 
+    public Boolean getAvailableForDispatching() {
+        return isAvailableForDispatching;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
@@ -68,12 +75,13 @@ public class LiveUnit implements Serializable {
                 Objects.equals(name, liveUnit.name) &&
                 Objects.equals(lastPoint, liveUnit.lastPoint) &&
                 Objects.equals(targetPoint, liveUnit.targetPoint) &&
-                Objects.equals(currentPosition, liveUnit.currentPosition);
+                Objects.equals(currentPosition, liveUnit.currentPosition) &&
+                Objects.equals(isAvailableForDispatching, liveUnit.isAvailableForDispatching);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, lastPoint, targetPoint, currentPosition);
+        return Objects.hash(id, name, lastPoint, targetPoint, currentPosition, isAvailableForDispatching);
     }
 
     @Override
@@ -84,6 +92,7 @@ public class LiveUnit implements Serializable {
                 .append("lastPoint", lastPoint)
                 .append("targetPoint", targetPoint)
                 .append("currentPosition", currentPosition)
+                .append("isAvailableForDispatching", isAvailableForDispatching)
                 .toString();
     }
 }

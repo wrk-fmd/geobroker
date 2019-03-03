@@ -42,15 +42,7 @@ public class UnitController {
     public ResponseEntity<ConfiguredUnit> updateUnit(
             @PathVariable("unitId") final String unitId,
             @RequestBody @Valid final ConfiguredUnit unit) {
-        ConfiguredUnit updatedUnit = new ConfiguredUnit(
-                unitId,
-                unit.getName(),
-                unit.getToken(),
-                unit.getUnits(),
-                unit.getIncidents(),
-                unit.getLastPoint(),
-                unit.getTargetPoint());
-
+        ConfiguredUnit updatedUnit = createConfiguredUnitWithUpdatedId(unitId, unit);
         unitService.createOrUpdateUnit(updatedUnit);
         return ResponseEntity.ok(updatedUnit);
     }
@@ -83,5 +75,17 @@ public class UnitController {
     public ResponseEntity<GetAllUnitsResponse> getAllUnits() {
         Set<ConfiguredUnit> allUnits = unitService.getAllUnits();
         return ResponseEntity.ok(new GetAllUnitsResponse(allUnits));
+    }
+
+    private ConfiguredUnit createConfiguredUnitWithUpdatedId(final String updatedUnitId, final ConfiguredUnit unit) {
+        return new ConfiguredUnit(
+                updatedUnitId,
+                unit.getName(),
+                unit.getToken(),
+                unit.getUnits(),
+                unit.getIncidents(),
+                unit.getLastPoint(),
+                unit.getTargetPoint(),
+                unit.getAvailableForDispatching());
     }
 }
