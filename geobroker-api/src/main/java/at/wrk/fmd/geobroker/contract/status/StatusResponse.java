@@ -31,6 +31,7 @@ public class StatusResponse implements Serializable {
     public int hashCode() {
         return Objects.hash(instanceId);
     }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ContractToStringStyle.STYLE)
