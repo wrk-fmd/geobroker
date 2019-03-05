@@ -101,6 +101,10 @@ Example:
     "latitude": 47.5838909,
     "longitude": 12.6938428
   },
+  "destination": {
+    "latitude": 47.59,
+    "longitude": 12.68
+  },
   "assignedUnits": {
     "trp-3-id": "ZBO"
   }
