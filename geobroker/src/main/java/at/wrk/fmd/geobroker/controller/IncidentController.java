@@ -49,6 +49,7 @@ public class IncidentController {
                 incident.getBlue(),
                 incident.getInfo(),
                 incident.getLocation(),
+                incident.getDestination(),
                 incident.getAssignedUnits());
 
         incidentService.createOrUpdateIncident(updatedIncident);

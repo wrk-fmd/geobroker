@@ -25,6 +25,7 @@ public class Incident implements Serializable {
     private final Boolean blue;
     private final String info;
     private final Point location;
+    private final Point destination;
     private final Map<String, String> assignedUnits;
 
     public Incident(
@@ -34,6 +35,7 @@ public class Incident implements Serializable {
             final Boolean blue,
             final String info,
             final Point location,
+            final Point destination,
             final Map<String, String> assignedUnits) {
         this.id = Objects.requireNonNull(id);
         this.type = type;
@@ -41,6 +43,7 @@ public class Incident implements Serializable {
         this.blue = blue;
         this.info = info;
         this.location = location;
+        this.destination = destination;
         this.assignedUnits = assignedUnits == null ? ImmutableMap.of() : ImmutableMap.copyOf(assignedUnits);
     }
 
@@ -69,6 +72,10 @@ public class Incident implements Serializable {
         return location;
     }
 
+    public Point getDestination() {
+        return destination;
+    }
+
     public Map<String, String> getAssignedUnits() {
         return assignedUnits;
     }
@@ -84,12 +91,13 @@ public class Incident implements Serializable {
                 Objects.equals(blue, incident.blue) &&
                 Objects.equals(info, incident.info) &&
                 Objects.equals(location, incident.location) &&
+                Objects.equals(destination, incident.destination) &&
                 Objects.equals(assignedUnits, incident.assignedUnits);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, type, priority, blue, info, location, assignedUnits);
+        return Objects.hash(id, type, priority, blue, info, location, destination, assignedUnits);
     }
 
     @Override
@@ -101,6 +109,7 @@ public class Incident implements Serializable {
                 .append("blue", blue)
                 .append("info", info)
                 .append("location", location)
+                .append("destination", destination)
                 .append("assignedUnits", assignedUnits)
                 .toString();
     }

@@ -85,6 +85,7 @@ Properties:
 * (optional) `blue`: Flag if the incident shall be handled with emergency light.
 * (optional) `info`: Info text of the incident. The info text can also contain the human readable address representation.
 * (optional) `location`: The [point] of the incident.
+* (optional) `destination`: The [point] of the destination, if there is a transport or relocation planned for the incident.
 * `assignedUnits`: A map of the assigned units on the incident.
 
 Example:
