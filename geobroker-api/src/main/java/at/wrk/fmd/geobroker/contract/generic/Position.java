@@ -6,13 +6,14 @@
 
 package at.wrk.fmd.geobroker.contract.generic;
 
-import at.wrk.fmd.geobroker.contract.ContractToStringStyle;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.Objects;
+
+import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 public class Position extends Point {
     private static final long serialVersionUID = 1L;
@@ -84,7 +85,7 @@ public class Position extends Point {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ContractToStringStyle.STYLE)
+        return new ToStringBuilder(this, SHORT_PREFIX_STYLE)
                 .appendSuper(super.toString())
                 .append("timestamp", timestamp)
                 .append("accuracy", accuracy)

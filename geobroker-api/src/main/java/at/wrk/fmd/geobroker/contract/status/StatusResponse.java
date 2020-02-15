@@ -1,10 +1,11 @@
 package at.wrk.fmd.geobroker.contract.status;
 
-import at.wrk.fmd.geobroker.contract.ContractToStringStyle;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
 import java.util.Objects;
+
+import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 public class StatusResponse implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -34,7 +35,7 @@ public class StatusResponse implements Serializable {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ContractToStringStyle.STYLE)
+        return new ToStringBuilder(this, SHORT_PREFIX_STYLE)
                 .append("instanceId", instanceId)
                 .toString();
     }

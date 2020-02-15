@@ -8,6 +8,10 @@ package at.wrk.fmd.geobroker.contract;
 
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+/**
+ * @deprecated Use {@link ToStringStyle#SHORT_PREFIX_STYLE} instead.
+ */
+@Deprecated
 public final class ContractToStringStyle extends ToStringStyle {
     public static ContractToStringStyle STYLE = new ContractToStringStyle();
 

@@ -6,13 +6,14 @@
 
 package at.wrk.fmd.geobroker.contract.poi;
 
-import at.wrk.fmd.geobroker.contract.ContractToStringStyle;
 import at.wrk.fmd.geobroker.contract.generic.Point;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
+
+import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 public class PointOfInterest implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -68,7 +69,7 @@ public class PointOfInterest implements Serializable {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ContractToStringStyle.STYLE)
+        return new ToStringBuilder(this, SHORT_PREFIX_STYLE)
                 .append("id", id)
                 .append("type", type)
                 .append("info", info)

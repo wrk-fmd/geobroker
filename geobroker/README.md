@@ -111,6 +111,21 @@ Example:
 }
 ```
 
+## Data type `OneTimeAction`
+
+A one-time-action represents a user action which can be performed by calling the provided URL with HTTP POST.
+The `type` of the action hints the client which type of action it is.
+The optional `incident` property holds a reference to an incident, if the action is related to a specific incident.
+
+One-time-actions are always in the scope of the requesting unit and are only valid for the requesting unit.
+
+Properties:
+
+* `type`: The type of the action. The allowed values of types are application specific.
+* `url`: The url where the action can be triggered via HTTP POST.
+* (optional) `incidentId`: An optional reference to an incident, in which scope the action is executed.
+* (optional) `additionalData`: Additional data which might be provided. Values and presence of the property are application specific.
+
 ## Public endpoint
 
 ### Update position data of unit
@@ -153,6 +168,7 @@ Properties of response:
 
 * `units`: A list of [units](#data-type-unit) which are visible for the requesting unit.
 * `incidents`: A list of [incidents](#data-type-incident) which are visible for the requesting unit.
+* `availableOneTimeActions`: A list of available one-time-actions. Those actions are only valid in the context of the requesting unit.
 
 Example of a success response:
 
@@ -195,6 +211,14 @@ Example of a success response:
       "assignedUnits": {
         "trp-3-id": "ZBO"
       }
+    }
+  ],
+  "availableOneTimeActions": [
+    {
+      "type": "setNextTaskState",
+      "url": "https://some-server.local/ota/callback/c9a0fd40-f415-4a79-ac93-eca54e19d0b6",
+      "incidentId": "incident-1-id",
+      "additionalData": "ABO"
     }
   ]
 }

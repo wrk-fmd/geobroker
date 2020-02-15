@@ -6,7 +6,7 @@
 
 package at.wrk.fmd.geobroker.contract.unit;
 
-import at.wrk.fmd.geobroker.contract.ContractToStringStyle;
+import at.wrk.fmd.geobroker.contract.generic.OneTimeAction;
 import at.wrk.fmd.geobroker.contract.generic.Point;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -16,6 +16,8 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+
+import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 /**
  * The POJO for the internal configured unit.
@@ -31,7 +33,12 @@ public class ConfiguredUnit implements Serializable {
     private final Point lastPoint;
     private final Point targetPoint;
     private final Boolean isAvailableForDispatching;
+    private final List<OneTimeAction> availableOneTimeActions;
 
+    /**
+     * @deprecated Use {@link #ConfiguredUnit(Builder)} instead.
+     */
+    @Deprecated
     public ConfiguredUnit(
             final String id,
             final String name,
@@ -39,7 +46,8 @@ public class ConfiguredUnit implements Serializable {
             final List<String> units,
             final List<String> incidents,
             final Point lastPoint,
-            final Point targetPoint, final Boolean isAvailableForDispatching) {
+            final Point targetPoint,
+            final Boolean isAvailableForDispatching) {
         this.id = Objects.requireNonNull(id, "Unit identifier must not be null.");
         this.name = Objects.requireNonNull(name, "Display name of unit must not be null.");
         this.token = Objects.requireNonNull(token, "Token of unit must not be null.");
@@ -48,6 +56,19 @@ public class ConfiguredUnit implements Serializable {
         this.lastPoint = lastPoint;
         this.targetPoint = targetPoint;
         this.isAvailableForDispatching = isAvailableForDispatching;
+        this.availableOneTimeActions = ImmutableList.of();
+    }
+
+    public ConfiguredUnit(final Builder builder) {
+        this.id = Objects.requireNonNull(builder.id, "Unit identifier must not be null.");
+        this.name = Objects.requireNonNull(builder.name, "Display name of unit must not be null.");
+        this.token = Objects.requireNonNull(builder.token, "Token of unit must not be null.");
+        this.units = builder.units == null ? ImmutableList.of() : ImmutableList.copyOf(builder.units);
+        this.incidents = builder.incidents == null ? ImmutableList.of() : ImmutableList.copyOf(builder.incidents);
+        this.lastPoint = builder.lastPoint;
+        this.targetPoint = builder.targetPoint;
+        this.isAvailableForDispatching = builder.isAvailableForDispatching;
+        this.availableOneTimeActions = builder.availableOneTimeActions == null ? ImmutableList.of() : ImmutableList.copyOf(builder.availableOneTimeActions);
     }
 
     @NotNull
@@ -66,11 +87,11 @@ public class ConfiguredUnit implements Serializable {
     }
 
     public List<String> getUnits() {
-        return units == null ? ImmutableList.of() : ImmutableList.copyOf(units);
+        return units;
     }
 
     public List<String> getIncidents() {
-        return incidents == null ? ImmutableList.of() : ImmutableList.copyOf(incidents);
+        return incidents;
     }
 
     @Nullable
@@ -88,6 +109,10 @@ public class ConfiguredUnit implements Serializable {
         return isAvailableForDispatching;
     }
 
+    public List<OneTimeAction> getAvailableOneTimeActions() {
+        return availableOneTimeActions;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
@@ -100,17 +125,18 @@ public class ConfiguredUnit implements Serializable {
                 Objects.equals(incidents, that.incidents) &&
                 Objects.equals(lastPoint, that.lastPoint) &&
                 Objects.equals(targetPoint, that.targetPoint) &&
-                Objects.equals(isAvailableForDispatching, that.isAvailableForDispatching);
+                Objects.equals(isAvailableForDispatching, that.isAvailableForDispatching) &&
+                Objects.equals(availableOneTimeActions, that.availableOneTimeActions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, token, units, incidents, lastPoint, targetPoint, isAvailableForDispatching);
+        return Objects.hash(id, name, token, units, incidents, lastPoint, targetPoint, isAvailableForDispatching, availableOneTimeActions);
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ContractToStringStyle.STYLE)
+        return new ToStringBuilder(this, SHORT_PREFIX_STYLE)
                 .append("id", id)
                 .append("name", name)
                 .append("token", token)
@@ -119,6 +145,62 @@ public class ConfiguredUnit implements Serializable {
                 .append("lastPoint", lastPoint)
                 .append("targetPoint", targetPoint)
                 .append("isAvailableForDispatching", isAvailableForDispatching)
+                .append("availableOneTimeActions", availableOneTimeActions)
                 .toString();
+    }
+
+    public static class Builder {
+        private final String id;
+        private final String name;
+        private final String token;
+        private List<String> units;
+        private List<String> incidents;
+        private Point lastPoint;
+        private Point targetPoint;
+        private Boolean isAvailableForDispatching;
+        private List<OneTimeAction> availableOneTimeActions;
+
+        private Builder(
+                final String id,
+                final String name,
+                final String token) {
+            this.id = id;
+            this.name = name;
+            this.token = token;
+        }
+
+        public Builder withUnits(final List<String> units) {
+            this.units = units;
+            return this;
+        }
+
+        public Builder withIncidents(final List<String> incidents) {
+            this.incidents = incidents;
+            return this;
+        }
+
+        public Builder withLastPoint(final Point lastPoint) {
+            this.lastPoint = lastPoint;
+            return this;
+        }
+
+        public Builder withTargetPoint(final Point targetPoint) {
+            this.targetPoint = targetPoint;
+            return this;
+        }
+
+        public Builder withAvailableForDispatching(final Boolean availableForDispatching) {
+            isAvailableForDispatching = availableForDispatching;
+            return this;
+        }
+
+        public Builder withAvailableOneTimeActions(final List<OneTimeAction> availableOneTimeActions) {
+            this.availableOneTimeActions = availableOneTimeActions;
+            return this;
+        }
+
+        public ConfiguredUnit build() {
+            return new ConfiguredUnit(this);
+        }
     }
 }
