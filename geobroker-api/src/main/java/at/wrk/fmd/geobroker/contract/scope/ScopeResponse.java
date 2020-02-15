@@ -36,7 +36,7 @@ public class ScopeResponse implements Serializable {
             final List<OneTimeAction> availableOneTimeActions) {
         this.units = ImmutableList.copyOf(units);
         this.incidents = ImmutableList.copyOf(incidents);
-        this.availableOneTimeActions = availableOneTimeActions;
+        this.availableOneTimeActions = ImmutableList.copyOf(availableOneTimeActions);
     }
 
     public List<LiveUnit> getUnits() {

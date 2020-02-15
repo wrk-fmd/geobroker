@@ -83,6 +83,18 @@ public class UnitIntegrationTest extends AbstractRestIntegrationTest {
         assertThat(response.getStatusCode(), equalTo(HttpStatus.BAD_REQUEST));
     }
 
+    @Test
+    public void unitRequestsScope_unitHasOneTimeAction_unitRetrievesAction() {
+        String unitId = "test-unit-0";
+        String token = "access token";
+
+        ConfiguredUnit configuredUnit = randomUnit(unitId, token, ImmutableList.of());
+        restTemplate.put(privateApiUrl("/units/" + unitId), configuredUnit);
+
+        ScopeResponse response = getScopeForUnit(unitId, token);
+        assertThat(response.getAvailableOneTimeActions(), equalTo(configuredUnit.getAvailableOneTimeActions()));
+    }
+
     private FakePosition createInvalidPosition() {
         return new FakePosition(RandomUtils.nextDouble(5, 20), Instant.now());
     }

@@ -6,6 +6,7 @@
 
 package at.wrk.fmd.geobroker.util;
 
+import at.wrk.fmd.geobroker.contract.generic.OneTimeAction;
 import at.wrk.fmd.geobroker.contract.generic.Point;
 import at.wrk.fmd.geobroker.contract.unit.ConfiguredUnit;
 import com.google.common.collect.ImmutableList;
@@ -26,15 +27,22 @@ public final class ConfiguredUnits {
     }
 
     public static ConfiguredUnit randomUnit(final String unitId, final String token, final List<String> referencedUnitIds) {
-        return new ConfiguredUnit(
-                unitId,
-                "Display Name " + randomAlphabetic(),
-                token,
-                referencedUnitIds,
-                ImmutableList.of("referenced incident 1 " + randomAlphabetic(), "referenced incident 2 " + randomAlphabetic()),
-                new Point(123d, RandomUtils.nextDouble(0, 90)),
-                new Point(938d, RandomUtils.nextDouble(0, 90)),
-                RandomUtils.nextBoolean());
+        return ConfiguredUnit.builder(unitId, "Display Name " + randomAlphabetic(), token)
+                .withUnits(referencedUnitIds)
+                .withIncidents(ImmutableList.of("referenced incident 1 " + randomAlphabetic(), "referenced incident 2 " + randomAlphabetic()))
+                .withLastPoint(new Point(123d, RandomUtils.nextDouble(0, 90)))
+                .withTargetPoint(new Point(938d, RandomUtils.nextDouble(0, 90)))
+                .withAvailableForDispatching(RandomUtils.nextBoolean())
+                .withAvailableOneTimeActions(ImmutableList.of(randomOneTimeAction()))
+                .build();
+    }
+
+    private static OneTimeAction randomOneTimeAction() {
+        return new OneTimeAction(
+                "integrationTestOTA",
+                "https://invalid.local/integrationTest/42",
+                null,
+                RandomStringUtils.randomAlphabetic(10));
     }
 
     private static String randomAlphabetic() {

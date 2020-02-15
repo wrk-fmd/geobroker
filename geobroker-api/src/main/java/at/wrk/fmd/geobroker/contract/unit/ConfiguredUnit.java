@@ -149,6 +149,13 @@ public class ConfiguredUnit implements Serializable {
                 .toString();
     }
 
+    public static Builder builder(
+            final String id,
+            final String name,
+            final String token) {
+        return new Builder(id, name, token);
+    }
+
     public static class Builder {
         private final String id;
         private final String name;
