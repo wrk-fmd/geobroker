@@ -78,14 +78,13 @@ public class UnitController {
     }
 
     private ConfiguredUnit createConfiguredUnitWithUpdatedId(final String updatedUnitId, final ConfiguredUnit unit) {
-        return new ConfiguredUnit(
-                updatedUnitId,
-                unit.getName(),
-                unit.getToken(),
-                unit.getUnits(),
-                unit.getIncidents(),
-                unit.getLastPoint(),
-                unit.getTargetPoint(),
-                unit.getAvailableForDispatching());
+        return ConfiguredUnit.builder(updatedUnitId, unit.getName(), unit.getToken())
+                .withUnits(unit.getUnits())
+                .withIncidents(unit.getIncidents())
+                .withLastPoint(unit.getLastPoint())
+                .withTargetPoint(unit.getTargetPoint())
+                .withAvailableForDispatching(unit.getAvailableForDispatching())
+                .withAvailableOneTimeActions(unit.getAvailableOneTimeActions())
+                .build();
     }
 }

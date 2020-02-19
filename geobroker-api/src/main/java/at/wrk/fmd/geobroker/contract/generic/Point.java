@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
-import static at.wrk.fmd.geobroker.contract.ContractToStringStyle.STYLE;
+import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 public class Point implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -58,7 +58,7 @@ public class Point implements Serializable {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, STYLE)
+        return new ToStringBuilder(this, SHORT_PREFIX_STYLE)
                 .append("latitude", latitude)
                 .append("longitude", longitude)
                 .toString();

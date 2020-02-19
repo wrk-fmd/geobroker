@@ -6,13 +6,14 @@
 
 package at.wrk.fmd.geobroker.contract.unit;
 
-import at.wrk.fmd.geobroker.contract.ContractToStringStyle;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+
+import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 public class GetAllUnitsResponse implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -29,7 +30,7 @@ public class GetAllUnitsResponse implements Serializable {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ContractToStringStyle.STYLE)
+        return new ToStringBuilder(this, SHORT_PREFIX_STYLE)
                 .append("configuredUnits", configuredUnits)
                 .toString();
     }

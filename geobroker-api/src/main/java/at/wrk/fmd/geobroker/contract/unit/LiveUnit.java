@@ -6,13 +6,14 @@
 
 package at.wrk.fmd.geobroker.contract.unit;
 
-import at.wrk.fmd.geobroker.contract.ContractToStringStyle;
 import at.wrk.fmd.geobroker.contract.generic.Point;
 import at.wrk.fmd.geobroker.contract.generic.Position;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
 import java.util.Objects;
+
+import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 /**
  * The POJO for the public unit view.
@@ -86,7 +87,7 @@ public class LiveUnit implements Serializable {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ContractToStringStyle.STYLE)
+        return new ToStringBuilder(this, SHORT_PREFIX_STYLE)
                 .append("id", id)
                 .append("name", name)
                 .append("lastPoint", lastPoint)

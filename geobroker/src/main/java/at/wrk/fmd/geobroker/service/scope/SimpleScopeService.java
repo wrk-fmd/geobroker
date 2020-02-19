@@ -51,8 +51,9 @@ public class SimpleScopeService implements ScopeService {
         if (unitRepository.isTokenAuthorized(unitId, token)) {
             Optional<ConfiguredUnit> unit = unitRepository.getUnit(unitId);
             if (unit.isPresent()) {
-                LiveUnit ownLiveUnit = mapper.map(unit.get(), maximumDataAge);
-                List<LiveUnit> referencedLiveUnits = unit.get().getUnits()
+                ConfiguredUnit ownConfiguredUnit = unit.get();
+                LiveUnit ownLiveUnit = mapper.map(ownConfiguredUnit, maximumDataAge);
+                List<LiveUnit> referencedLiveUnits = ownConfiguredUnit.getUnits()
                         .stream()
                         .map(unitRepository::getUnit)
                         .filter(Optional::isPresent)
@@ -61,14 +62,14 @@ public class SimpleScopeService implements ScopeService {
                         .collect(Collectors.toList());
                 List<LiveUnit> liveUnits = mergeToList(ownLiveUnit, referencedLiveUnits);
 
-                List<Incident> incidents = unit.get().getIncidents()
+                List<Incident> incidents = ownConfiguredUnit.getIncidents()
                         .stream()
                         .map(incidentRepository::getIncident)
                         .filter(Optional::isPresent)
                         .map(Optional::get)
                         .collect(Collectors.toList());
 
-                response = Optional.of(new ScopeResponse(liveUnits, incidents));
+                response = Optional.of(new ScopeResponse(liveUnits, incidents, ownConfiguredUnit.getAvailableOneTimeActions()));
             }
         }
 

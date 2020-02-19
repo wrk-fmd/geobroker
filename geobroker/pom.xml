@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.19.RELEASE</version>
+        <version>1.5.22.RELEASE</version>
         <relativePath/>
     </parent>
 
@@ -23,10 +23,11 @@
 
         <geobroker.api.version>1.2.0-SNAPSHOT</geobroker.api.version>
 
-        <log4j2.version>2.10.0</log4j2.version>
+        <log4j2.version>2.13.0</log4j2.version>
         <com.google.code.findbugs.jsr305>3.0.2</com.google.code.findbugs.jsr305>
         <apache.commons.lang3.version>3.8.1</apache.commons.lang3.version>
-        <com.google.guava.version>27.0.1-jre</com.google.guava.version>
+        <com.google.guava.version>28.2-jre</com.google.guava.version>
+        <gson.javatime.serialisers.version>1.1.1</gson.javatime.serialisers.version>
 
         <!-- Test dependencies -->
         <hamcrest.version>1.3</hamcrest.version>
@@ -150,7 +151,7 @@
         <dependency>
             <groupId>com.fatboyindustrial.gson-javatime-serialisers</groupId>
             <artifactId>gson-javatime-serialisers</artifactId>
-            <version>1.1.1</version>
+            <version>${gson.javatime.serialisers.version}</version>
         </dependency>
 
         <!-- TEST DEPENDENCIES -->
