@@ -15,7 +15,7 @@ let's use docker compose.
 
 ## Build the project using a maven container
 
-These steps build the deployable .war-file and a docker images.
+These steps build the deployable .war-file and a docker image.
 
 * `./build_war` builds the deployable; optional parameters are
 	* `./build_war_cached` (alternative command) keeps the cache after building for faster re-builds.
