@@ -6,8 +6,8 @@
 
 package at.wrk.fmd.geobroker.controller;
 
-import at.wrk.fmd.geobroker.contract.incident.Incident;
 import at.wrk.fmd.geobroker.contract.incident.GetAllIncidentsResponse;
+import at.wrk.fmd.geobroker.contract.incident.Incident;
 import at.wrk.fmd.geobroker.service.incident.IncidentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

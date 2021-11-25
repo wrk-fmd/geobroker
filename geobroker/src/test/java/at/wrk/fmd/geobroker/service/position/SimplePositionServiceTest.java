@@ -8,8 +8,8 @@ package at.wrk.fmd.geobroker.service.position;
 
 import at.wrk.fmd.geobroker.contract.generic.Position;
 import at.wrk.fmd.geobroker.repository.PositionRepository;
-import at.wrk.fmd.geobroker.util.Positions;
 import at.wrk.fmd.geobroker.repository.UnitRepository;
+import at.wrk.fmd.geobroker.util.Positions;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -8,7 +8,6 @@ package at.wrk.fmd.geobroker.service.incident;
 
 import at.wrk.fmd.geobroker.contract.incident.Incident;
 import at.wrk.fmd.geobroker.repository.IncidentRepository;
-import at.wrk.fmd.geobroker.service.incident.IncidentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
