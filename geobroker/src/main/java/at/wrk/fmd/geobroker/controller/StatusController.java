@@ -27,7 +27,7 @@ public class StatusController {
     @ResponseBody
     public ResponseEntity<StatusResponse> getStatus() {
         StatusResponse response = new StatusResponse(instanceIdProvider.get());
-        LOG.debug("Sending status response: {}", response);
+        LOG.trace("Sending status response: {}", response);
         return ResponseEntity.ok(response);
     }
 }

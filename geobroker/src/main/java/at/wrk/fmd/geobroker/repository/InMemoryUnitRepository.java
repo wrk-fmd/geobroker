@@ -50,9 +50,9 @@ public class InMemoryUnitRepository implements UnitRepository {
         ConfiguredUnit removedUnit = storage.remove(unitId);
 
         if (removedUnit != null) {
-            LOG.trace("Removed unit from storage: {}", removedUnit);
+            LOG.debug("Removed unit from storage: unitId: '{}', name: '{}'", unitId, removedUnit.getName());
         } else {
-            LOG.trace("Unit with id {} is not present in storage. Nothing to remove.", unitId);
+            LOG.debug("Unit with id {} is not present in storage. Nothing to remove.", unitId);
         }
     }
 

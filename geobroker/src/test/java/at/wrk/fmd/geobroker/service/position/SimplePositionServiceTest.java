@@ -8,8 +8,8 @@ package at.wrk.fmd.geobroker.service.position;
 
 import at.wrk.fmd.geobroker.contract.generic.Position;
 import at.wrk.fmd.geobroker.repository.PositionRepository;
-import at.wrk.fmd.geobroker.util.Positions;
 import at.wrk.fmd.geobroker.repository.UnitRepository;
+import at.wrk.fmd.geobroker.util.Positions;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,12 +22,12 @@ import static at.wrk.fmd.geobroker.service.position.PositionUpdateResult.UPDATED
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 
 public class SimplePositionServiceTest {
     private SimplePositionService sut;

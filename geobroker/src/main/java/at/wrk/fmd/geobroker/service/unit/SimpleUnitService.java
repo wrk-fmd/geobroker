@@ -32,7 +32,7 @@ public class SimpleUnitService implements UnitService {
     public void createOrUpdateUnit(final ConfiguredUnit unit) {
         Objects.requireNonNull(unit, "Unit to update must not be null");
         unitRepository.updateUnit(unit);
-        LOG.info("#unitupdate Unit was updated successfully. unitId: '{}'", unit.getId());
+        LOG.info("#unitupdate Unit was updated successfully. unitId: '{}', name: '{}'", unit.getId(), unit.getName());
     }
 
     @Override

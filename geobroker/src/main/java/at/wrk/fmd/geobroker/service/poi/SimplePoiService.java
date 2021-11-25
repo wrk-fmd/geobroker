@@ -6,7 +6,6 @@
 
 package at.wrk.fmd.geobroker.service.poi;
 
-import at.wrk.fmd.geobroker.contract.incident.Incident;
 import at.wrk.fmd.geobroker.contract.poi.PointOfInterest;
 import at.wrk.fmd.geobroker.repository.PoiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
