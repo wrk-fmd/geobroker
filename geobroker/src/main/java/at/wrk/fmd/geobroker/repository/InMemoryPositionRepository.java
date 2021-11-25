@@ -71,7 +71,7 @@ public class InMemoryPositionRepository implements PositionRepository {
         if (oldPosition != null) {
             int comparison = oldPosition.getTimestamp().compareTo(newPosition.getTimestamp());
             if (comparison > 0) {
-                LOG.warn("Tried to update position to an older value. Update is discarded. Position update: {}", newPosition);
+                LOG.info("Tried to update position to an older value. Update is discarded. Position update: {}", newPosition);
                 moreRecentPosition = oldPosition;
             }
         }
