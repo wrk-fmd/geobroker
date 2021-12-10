@@ -10,8 +10,8 @@ import at.wrk.fmd.geobroker.contract.generic.Position;
 import at.wrk.fmd.geobroker.repository.PositionRepository;
 import at.wrk.fmd.geobroker.repository.UnitRepository;
 import at.wrk.fmd.geobroker.util.Positions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -29,14 +29,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 
-public class SimplePositionServiceTest {
+class SimplePositionServiceTest {
     private SimplePositionService sut;
     private UnitRepository unitRepository;
     private PositionRepository positionRepository;
     private Instant fixedInstant;
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         unitRepository = mock(UnitRepository.class);
         positionRepository = mock(PositionRepository.class);
         fixedInstant = Instant.now();
@@ -44,7 +44,7 @@ public class SimplePositionServiceTest {
     }
 
     @Test
-    public void tokenIsNotAuthorized_returnNotAllowed() {
+    void tokenIsNotAuthorized_returnNotAllowed() {
         when(unitRepository.isTokenAuthorized(any(), any())).thenReturn(false);
 
         PositionUpdateResult result = sut.updatePosition("unit 1", "unauthorized token", Positions.createPosition());
@@ -53,7 +53,7 @@ public class SimplePositionServiceTest {
     }
 
     @Test
-    public void tokenIsAuthorized_returnUpdated() {
+    void tokenIsAuthorized_returnUpdated() {
         String unitId = "unit 1";
         String token = "authorized token";
         when(unitRepository.isTokenAuthorized(unitId, token)).thenReturn(true);
@@ -64,7 +64,7 @@ public class SimplePositionServiceTest {
     }
 
     @Test
-    public void tokenIsAuthorized_positionIsUpdated() {
+    void tokenIsAuthorized_positionIsUpdated() {
         String unitId = "unit 1";
         String token = "authorized token";
         when(unitRepository.isTokenAuthorized(unitId, token)).thenReturn(true);
@@ -76,7 +76,7 @@ public class SimplePositionServiceTest {
     }
 
     @Test
-    public void timestampIsInTheFuture_useCurrentTime() {
+    void timestampIsInTheFuture_useCurrentTime() {
         String unitId = "unit 1";
         String token = "authorized token";
         when(unitRepository.isTokenAuthorized(unitId, token)).thenReturn(true);
@@ -88,7 +88,7 @@ public class SimplePositionServiceTest {
     }
 
     @Test
-    public void configuredToUseServerTime_useCurrentTime() {
+    void configuredToUseServerTime_useCurrentTime() {
         sut = new SimplePositionService(unitRepository, positionRepository, false, Clock.fixed(fixedInstant, ZoneOffset.UTC));
 
         String unitId = "unit 1";

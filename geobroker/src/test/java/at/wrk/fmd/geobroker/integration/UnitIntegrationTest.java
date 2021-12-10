@@ -12,7 +12,7 @@ import at.wrk.fmd.geobroker.contract.unit.GetAllUnitsResponse;
 import at.wrk.fmd.geobroker.util.Positions;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.RandomUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -28,10 +28,10 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
-public class UnitIntegrationTest extends AbstractRestIntegrationTest {
+class UnitIntegrationTest extends AbstractRestIntegrationTest {
 
     @Test
-    public void createdUnitCanBeRetrieved() {
+    void createdUnitCanBeRetrieved() {
         String unitId = "test-unit-id";
         ConfiguredUnit configuredUnit = createConfiguredUnit(unitId, "any token");
 
@@ -40,7 +40,7 @@ public class UnitIntegrationTest extends AbstractRestIntegrationTest {
     }
 
     @Test
-    public void createdUnitIsInUnitList() {
+    void createdUnitIsInUnitList() {
         String unitId = "test-unit-id";
         ConfiguredUnit configuredUnit = createConfiguredUnit(unitId, "any token");
 
@@ -49,7 +49,7 @@ public class UnitIntegrationTest extends AbstractRestIntegrationTest {
     }
 
     @Test
-    public void unitRequestsScope_unitHasOtherUnitsAssigned_unitRetrievesPositionUpdates() {
+    void unitRequestsScope_unitHasOtherUnitsAssigned_unitRetrievesPositionUpdates() {
         String unitId = "test-unit-0";
         String referencedUnitId1 = "referenced-unit-1";
         String referencedUnitId2 = "referenced-unit-2";
@@ -71,7 +71,7 @@ public class UnitIntegrationTest extends AbstractRestIntegrationTest {
     }
 
     @Test
-    public void unitsSetPositionWithoutValues_respondWithError() {
+    void unitsSetPositionWithoutValues_respondWithError() {
 
         String token = "test token";
         String unitId = "unit-id";
@@ -84,7 +84,7 @@ public class UnitIntegrationTest extends AbstractRestIntegrationTest {
     }
 
     @Test
-    public void unitRequestsScope_unitHasOneTimeAction_unitRetrievesAction() {
+    void unitRequestsScope_unitHasOneTimeAction_unitRetrievesAction() {
         String unitId = "test-unit-0";
         String token = "access token";
 

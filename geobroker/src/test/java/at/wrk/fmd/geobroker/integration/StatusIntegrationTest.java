@@ -7,7 +7,7 @@
 package at.wrk.fmd.geobroker.integration;
 
 import at.wrk.fmd.geobroker.contract.status.StatusResponse;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static at.wrk.fmd.geobroker.integration.UrlHelper.privateApiUrl;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.notNullValue;
 public class StatusIntegrationTest extends AbstractRestIntegrationTest {
 
     @Test
-    public void createdUnitCanBeRetrieved() {
+    void createdUnitCanBeRetrieved() {
         StatusResponse statusResponse = restTemplate.getForObject(privateApiUrl("/status"), StatusResponse.class);
         assertThat(statusResponse.getInstanceId(), notNullValue());
     }

@@ -11,8 +11,8 @@ import at.wrk.fmd.geobroker.contract.scope.ScopeResponse;
 import at.wrk.fmd.geobroker.repository.IncidentRepository;
 import at.wrk.fmd.geobroker.repository.PoiRepository;
 import at.wrk.fmd.geobroker.repository.UnitRepository;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
@@ -22,15 +22,15 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class SimpleScopeServiceTest {
+class SimpleScopeServiceTest {
 
     private SimpleScopeService sut;
     private UnitRepository unitRepository;
     private IncidentRepository incidentRepository;
     private PoiRepository poiRepository;
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         LiveUnitMapper mapper = mock(LiveUnitMapper.class);
         unitRepository = mock(UnitRepository.class);
         incidentRepository = mock(IncidentRepository.class);
@@ -39,7 +39,7 @@ public class SimpleScopeServiceTest {
     }
 
     @Test
-    public void tokenNotAuthorized_returnEmptyScopeOptional() {
+    void tokenNotAuthorized_returnEmptyScopeOptional() {
         when(unitRepository.isTokenAuthorized(any(), any())).thenReturn(false);
 
         Optional<ScopeResponse> scopeForUnit = sut.getScopeForUnit("unit id", "token", 42);
@@ -48,7 +48,7 @@ public class SimpleScopeServiceTest {
     }
 
     @Test
-    public void tokenNotAuthorized_returnEmptyPoiOptional() {
+    void tokenNotAuthorized_returnEmptyPoiOptional() {
         when(unitRepository.isTokenAuthorized(any(), any())).thenReturn(false);
 
         Optional<GetAllPoisResponse> poisForUnit = sut.getPoisForUnit("unit id", "token");

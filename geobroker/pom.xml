@@ -137,6 +137,21 @@
             <artifactId>log4j-core</artifactId>
             <version>2.15.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.15.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-jul</artifactId>
+            <version>2.15.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.15.0</version>
+        </dependency>
 
         <!-- COMMONS -->
         <dependency>
@@ -171,12 +186,6 @@
         </dependency>
 
         <!-- TEST DEPENDENCIES -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-
         <dependency>
             <groupId>com.github.npathai</groupId>
             <artifactId>hamcrest-optional</artifactId>
