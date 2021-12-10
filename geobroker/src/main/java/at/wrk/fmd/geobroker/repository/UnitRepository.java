@@ -21,5 +21,10 @@ public interface UnitRepository {
 
     Optional<ConfiguredUnit> getUnit(final String unitId);
 
+    /**
+     * Returns a set of unit IDs of the units which have access to the unit with ID <code>unitIdToCheck</code>.
+     */
+    Set<String> getUnitsWithAccessTo(final String unitIdToCheck);
+
     Set<ConfiguredUnit> getAll();
 }

@@ -15,9 +15,11 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 @Scope("singleton")
@@ -59,6 +61,16 @@ public class InMemoryUnitRepository implements UnitRepository {
     @Override
     public Optional<ConfiguredUnit> getUnit(final String unitId) {
         return Optional.ofNullable(storage.get(unitId));
+    }
+
+    @Override
+    public Set<String> getUnitsWithAccessTo(final String unitIdToCheck) {
+        Objects.requireNonNull(unitIdToCheck, "Unit ID to check must not be null.");
+        return storage.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().getUnits().contains(unitIdToCheck))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
     }
 
     @Override
