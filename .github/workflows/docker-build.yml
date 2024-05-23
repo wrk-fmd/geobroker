@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - 'develop'
-      - 'main'
       - 'master'
 
 jobs:
@@ -54,9 +53,16 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build and push Docker image
-        id: push
         uses: docker/build-push-action@v5
         with:
           context: ./geobroker
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/geobroker:${{ steps.version-extraction.outputs.VERSION }}
+
+      - name: Tag as latest on releases
+        uses: docker/build-push-action@v5
+        if: github.ref == 'refs/heads/master'
+        with:
+          context: ./geobroker
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/geobroker:latest
