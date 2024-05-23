@@ -28,9 +28,10 @@ jobs:
           architecture: x64
 
       - name: Build WAR package
-        run: mvn clean package
+        run: mvn clean install
 
-      - run: mkdir staging && cp geobroker/target/geobroker.war staging
+      - name: Create staging directory
+        run: mkdir staging && cp geobroker/target/geobroker.war staging
 
       - name: Provide built WAR package
         uses: actions/upload-artifact@v4
@@ -40,8 +41,7 @@ jobs:
 
       - name: Extract Maven project version
         working-directory: geobroker
-        run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec) | sed 's/pattern/replacement/'
-        id: project
+        run: mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec | sed 's/pattern/replacement/' >> $GEOBROKER_VERSION
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
@@ -56,4 +56,4 @@ jobs:
           context: ./geobroker
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/geobroker:${{ steps.project.outputs.version }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/geobroker:${{ GEOBROKER_VERSION }}
