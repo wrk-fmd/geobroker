@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("${api.url.base}/public/positions")

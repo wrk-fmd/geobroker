@@ -1,4 +1,4 @@
-FROM tomcat:9.0.62-jre11-openjdk-bullseye
+FROM tomcat:10.1.20-jre17
 
 COPY target/geobroker.war /usr/local/tomcat/webapps/geobroker.war
 
