@@ -57,4 +57,4 @@ jobs:
           context: ./geobroker
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/geobroker:${{ steps.version-extraction.outputs. }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/geobroker:${{ steps.version-extraction.outputs.VERSION }}
