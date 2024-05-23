@@ -19,7 +19,7 @@
     </parent>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
 
         <geobroker.api.version>2.0.0-SNAPSHOT</geobroker.api.version>
 

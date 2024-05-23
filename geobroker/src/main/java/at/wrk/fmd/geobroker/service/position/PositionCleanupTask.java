@@ -22,7 +22,7 @@ public class PositionCleanupTask {
     public PositionCleanupTask(
             final PositionRepository positionRepository,
             final Clock clock,
-            @Value("${retention.max.hours}") final int retentionTimeInHours) {
+            @Value("${retention.max.hours:12}") final int retentionTimeInHours) {
         this.positionRepository = positionRepository;
         this.clock = clock;
         this.retentionTimeInHours = retentionTimeInHours;
