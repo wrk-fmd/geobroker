@@ -6,7 +6,6 @@
 
 package at.wrk.fmd.geobroker.repository;
 
-import at.wrk.fmd.geobroker.contract.incident.Incident;
 import at.wrk.fmd.geobroker.contract.poi.PointOfInterest;
 
 import java.util.Optional;

@@ -7,8 +7,8 @@
 package at.wrk.fmd.geobroker.repository;
 
 import at.wrk.fmd.geobroker.contract.unit.ConfiguredUnit;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
@@ -19,16 +19,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
-public class InMemoryUnitRepositoryTest {
+class InMemoryUnitRepositoryTest {
     private UnitRepository sut;
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         sut = new InMemoryUnitRepository();
     }
 
     @Test
-    public void storeUnit_unitCanBeRetrieved() {
+    void storeUnit_unitCanBeRetrieved() {
         String unitId = "unit-id";
         ConfiguredUnit unit = randomUnit(unitId, "token");
         sut.updateUnit(unit);
@@ -38,7 +38,7 @@ public class InMemoryUnitRepositoryTest {
     }
 
     @Test
-    public void storeUnit_validTokenIsAuthorized() {
+    void storeUnit_validTokenIsAuthorized() {
         String unitId = "unit-id";
         String token = "token";
         ConfiguredUnit unit = randomUnit(unitId, token);
@@ -49,7 +49,7 @@ public class InMemoryUnitRepositoryTest {
     }
 
     @Test
-    public void storeUnit_invalidTokenIsNotAuthorized() {
+    void storeUnit_invalidTokenIsNotAuthorized() {
         String unitId = "unit-id";
         String token = "token";
         ConfiguredUnit unit = randomUnit(unitId, token);
@@ -60,7 +60,7 @@ public class InMemoryUnitRepositoryTest {
     }
 
     @Test
-    public void deleteStoredUnit_unitCannotBeRetrieved() {
+    void deleteStoredUnit_unitCannotBeRetrieved() {
         String unitId = "unit-id";
         ConfiguredUnit unit = randomUnit(unitId, "token");
         sut.updateUnit(unit);

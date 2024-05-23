@@ -6,8 +6,8 @@
 
 package at.wrk.fmd.geobroker.controller;
 
-import at.wrk.fmd.geobroker.contract.incident.Incident;
 import at.wrk.fmd.geobroker.contract.incident.GetAllIncidentsResponse;
+import at.wrk.fmd.geobroker.contract.incident.Incident;
 import at.wrk.fmd.geobroker.service.incident.IncidentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.io.Serializable;
 import java.util.Optional;
 import java.util.Set;

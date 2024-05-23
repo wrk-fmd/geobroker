@@ -30,7 +30,7 @@ public class SimplePositionService implements PositionService {
     public SimplePositionService(
             final UnitRepository unitRepository,
             final PositionRepository positionRepository,
-            @Value("${position.update.use.client.time}") final boolean useClientTime,
+            @Value("${position.update.use.client.time:true}") final boolean useClientTime,
             final Clock clock) {
         this.unitRepository = unitRepository;
         this.positionRepository = positionRepository;

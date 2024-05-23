@@ -12,18 +12,19 @@ import at.wrk.fmd.geobroker.contract.unit.ConfiguredUnit;
 import at.wrk.fmd.geobroker.startup.GeoBrokerBootstrapper;
 import at.wrk.fmd.geobroker.startup.GeobrokerPropertyConfiguration;
 import at.wrk.fmd.geobroker.startup.WebConfiguration;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static at.wrk.fmd.geobroker.integration.UrlHelper.privateApiUrl;
 import static at.wrk.fmd.geobroker.integration.UrlHelper.publicApiUrl;
 import static at.wrk.fmd.geobroker.util.ConfiguredUnits.randomUnit;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {GeoBrokerBootstrapper.class, WebConfiguration.class, GeobrokerPropertyConfiguration.class})

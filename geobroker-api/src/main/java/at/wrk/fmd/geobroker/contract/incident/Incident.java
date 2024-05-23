@@ -10,7 +10,7 @@ import at.wrk.fmd.geobroker.contract.generic.Point;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;

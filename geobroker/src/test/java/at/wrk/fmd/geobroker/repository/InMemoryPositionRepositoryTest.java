@@ -8,8 +8,8 @@ package at.wrk.fmd.geobroker.repository;
 
 import at.wrk.fmd.geobroker.contract.generic.Position;
 import at.wrk.fmd.geobroker.util.Positions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -23,18 +23,18 @@ import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresent;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class InMemoryPositionRepositoryTest {
+class InMemoryPositionRepositoryTest {
     private InMemoryPositionRepository sut;
     private Instant fixedInstant;
 
-    @Before
+    @BeforeEach
     public void init() {
         fixedInstant = Instant.now();
         sut = new InMemoryPositionRepository(Clock.fixed(fixedInstant, ZoneId.systemDefault()));
     }
 
     @Test
-    public void storePosition_positionCanBeRetrieved() {
+    void storePosition_positionCanBeRetrieved() {
         Position position = Positions.createPosition();
         String unitId = "unit id";
 
@@ -45,7 +45,7 @@ public class InMemoryPositionRepositoryTest {
     }
 
     @Test
-    public void positionIsUpdatedWithNewerTimestamp_newPositionIsReturned() {
+    void positionIsUpdatedWithNewerTimestamp_newPositionIsReturned() {
         Instant timestamp = Instant.now();
         Position position = Positions.createPosition(timestamp);
         Position updatedPosition = Positions.createPosition(timestamp.plusSeconds(10));
@@ -59,7 +59,7 @@ public class InMemoryPositionRepositoryTest {
     }
 
     @Test
-    public void positionIsUpdatedWithOlderTimestamp_newPositionIsReturned() {
+    void positionIsUpdatedWithOlderTimestamp_newPositionIsReturned() {
         Instant timestamp = Instant.now();
         Position position = Positions.createPosition(timestamp);
         Position updatedPosition = Positions.createPosition(timestamp.minusSeconds(10));
@@ -73,7 +73,7 @@ public class InMemoryPositionRepositoryTest {
     }
 
     @Test
-    public void cleanupOutdatedPositions_olderPositionIsDeleted() {
+    void cleanupOutdatedPositions_olderPositionIsDeleted() {
         Instant timestamp = Instant.now();
         Position position = Positions.createPosition(timestamp);
 
@@ -90,7 +90,7 @@ public class InMemoryPositionRepositoryTest {
     }
 
     @Test
-    public void cleanupOutdatedPositions_newerPositionIsKept() {
+    void cleanupOutdatedPositions_newerPositionIsKept() {
         Instant timestamp = Instant.now();
         Position position = Positions.createPosition(timestamp);
 
@@ -104,7 +104,7 @@ public class InMemoryPositionRepositoryTest {
     }
 
     @Test
-    public void positionIsOutdated_noPositionReturned() {
+    void positionIsOutdated_noPositionReturned() {
         Position position = Positions.createPosition(fixedInstant.minus(15, ChronoUnit.MINUTES));
         String unitId = "unit id";
 

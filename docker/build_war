@@ -5,4 +5,4 @@ docker run -it --rm \
 	-v "$BASE:/usr/src/mymaven" \
 	-w /usr/src/mymaven \
 	maven:alpine mvn \
-		"$@" package
+		"$@" clean package

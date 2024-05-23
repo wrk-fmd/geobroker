@@ -19,7 +19,6 @@ These steps build the deployable .war-file and a docker image.
 
 * `./build_war` builds the deployable; optional parameters are
 	* `./build_war_cached` (alternative command) keeps the cache after building for faster re-builds.
-	* `clean` removes artefacts before compiling and packaging.
 * `./build_app` builds `geobroker-app`.
 
 ## Deployment
