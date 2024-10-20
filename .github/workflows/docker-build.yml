@@ -58,7 +58,7 @@ jobs:
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
-        if: !endswith(steps.version-extraction.outputs.VERSION, '-SNAPSHOT')
+        if: !endsWith(steps.version-extraction.outputs.VERSION, '-SNAPSHOT')
         with:
           context: ./geobroker
           push: true
