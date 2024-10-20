@@ -28,6 +28,8 @@ jobs:
 
       - name: Build WAR package
         run: mvn clean install
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create staging directory
         run: mkdir staging && cp geobroker/target/geobroker.war staging
@@ -42,6 +44,8 @@ jobs:
         working-directory: geobroker
         run: echo "VERSION=`mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec`" | sed "s/SNAPSHOT/`date +%Y%m%d%H%M%S`/" >> $GITHUB_OUTPUT
         id: version-extraction
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
