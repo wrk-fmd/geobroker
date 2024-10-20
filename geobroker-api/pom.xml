@@ -6,7 +6,7 @@
 
     <groupId>at.wrk.fmd</groupId>
     <artifactId>geobroker-api</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.0.1</version>
     <name>GeoBroker-API</name>
     <description>POJO definitions of GeoBroker API</description>
 
@@ -14,8 +14,8 @@
         <java.version>1.8</java.version>
 
         <com.google.code.findbugs.jsr305>3.0.2</com.google.code.findbugs.jsr305>
-        <apache.commons.lang3.version>3.14.0</apache.commons.lang3.version>
-        <com.google.guava.version>33.2.0-jre</com.google.guava.version>
+        <apache.commons.lang3.version>3.17.0</apache.commons.lang3.version>
+        <com.google.guava.version>33.3.1-jre</com.google.guava.version>
         <jakarta.validation.api.version>3.1.0</jakarta.validation.api.version>
     </properties>
 
@@ -43,7 +43,7 @@
                         <releaseBranchPrefix>release/</releaseBranchPrefix>
                         <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
                     </gitFlowConfig>
-                    <postReleaseGoals/>
+                    <postReleaseGoals>deploy</postReleaseGoals>
                     <commitMessagePrefix>[RELEASE] </commitMessagePrefix>
                 </configuration>
             </plugin>
@@ -51,7 +51,6 @@
     </build>
 
     <dependencies>
-
         <!-- COMMONS -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -77,4 +76,15 @@
             <version>${jakarta.validation.api.version}</version>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>github</id>
+            <name>github</name>
+            <url>https://maven.pkg.github.com/wrk-fmd/geobroker</url>
+        </repository>
+    </distributionManagement>
 </project>
