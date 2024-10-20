@@ -66,7 +66,7 @@ jobs:
 
       - name: Tag as latest on releases
         uses: docker/build-push-action@v5
-        if: !endswith(steps.version-extraction.outputs.VERSION, '-SNAPSHOT')
+        if: ${{ !endsWith(steps.version-extraction.outputs.VERSION, '-SNAPSHOT') }}
         with:
           context: ./geobroker
           push: true
