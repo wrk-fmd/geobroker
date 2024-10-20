@@ -206,10 +206,32 @@
                         <releaseBranchPrefix>release/</releaseBranchPrefix>
                         <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
                     </gitFlowConfig>
-                    <postReleaseGoals/>
+                    <postReleaseGoals>deploy</postReleaseGoals>
                     <commitMessagePrefix>[RELEASE] </commitMessagePrefix>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>github</id>
+            <name>github</name>
+            <url>https://maven.pkg.github.com/wrk-fmd/geobroker</url>
+        </repository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>github</id>
+            <name>github</name>
+            <url>https://maven.pkg.github.com/wrk-fmd/geobroker</url>
+        </repository>
+    </repositories>
 </project>
