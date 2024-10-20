@@ -12,7 +12,7 @@ import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
