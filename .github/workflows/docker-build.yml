@@ -25,6 +25,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           architecture: x64
+          cache: 'maven'
 
       - name: Build WAR package
         run: mvn clean install
