@@ -54,6 +54,7 @@ jobs:
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
+        if: !endswith(steps.version-extraction.outputs.VERSION, '-SNAPSHOT')
         with:
           context: ./geobroker
           push: true
@@ -61,7 +62,7 @@ jobs:
 
       - name: Tag as latest on releases
         uses: docker/build-push-action@v5
-        if: github.ref == 'refs/heads/master'
+        if: !endswith(steps.version-extraction.outputs.VERSION, '-SNAPSHOT')
         with:
           context: ./geobroker
           push: true
