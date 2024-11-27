@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.5</version>
+        <version>3.4.0</version>
         <relativePath/>
     </parent>
 
@@ -26,10 +26,10 @@
         <com.google.code.findbugs.jsr305>3.0.2</com.google.code.findbugs.jsr305>
         <apache.commons.lang3.version>3.17.0</apache.commons.lang3.version>
         <com.google.guava.version>33.3.1-jre</com.google.guava.version>
-        <gson.javatime.serialisers.version>1.1.1</gson.javatime.serialisers.version>
+        <gson.javatime.serialisers.version>1.1.2</gson.javatime.serialisers.version>
 
         <!-- Test dependencies -->
-        <hamcrest.optional.version>1.0</hamcrest.optional.version>
+        <hamcrest.optional.version>2.0.0</hamcrest.optional.version>
     </properties>
 
     <profiles>

@@ -28,12 +28,12 @@ public final class Positions {
                 randomDegree(),
                 randomDegree(),
                 Instant.now().minusSeconds(5),
-                RandomUtils.nextDouble(1, 42),
-                RandomUtils.nextDouble(0, 359),
-                RandomUtils.nextDouble(1, 20));
+                RandomUtils.insecure().randomDouble(1, 42),
+                RandomUtils.insecure().randomDouble(0, 359),
+                RandomUtils.insecure().randomDouble(1, 20));
     }
 
     private static double randomDegree() {
-        return RandomUtils.nextDouble(0, 90);
+        return RandomUtils.insecure().randomDouble(0, 90);
     }
 }
