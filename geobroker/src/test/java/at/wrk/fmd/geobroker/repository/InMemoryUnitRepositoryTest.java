@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 import static at.wrk.fmd.geobroker.util.ConfiguredUnits.randomUnit;
-import static com.github.npathai.hamcrestopt.OptionalMatchers.hasValue;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isEmpty;
+import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresentAnd;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
@@ -34,7 +34,7 @@ class InMemoryUnitRepositoryTest {
         sut.updateUnit(unit);
 
         Optional<ConfiguredUnit> retrievedUnit = sut.getUnit(unitId);
-        assertThat(retrievedUnit, hasValue(samePropertyValuesAs(unit)));
+        assertThat(retrievedUnit, isPresentAnd(samePropertyValuesAs(unit)));
     }
 
     @Test

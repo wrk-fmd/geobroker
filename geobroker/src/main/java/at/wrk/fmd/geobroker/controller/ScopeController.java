@@ -35,7 +35,7 @@ public class ScopeController {
     @Autowired
     public ScopeController(
             final ScopeService scopeService,
-            @Value("${data.age.default.minutes}") final int defaultMaxDataAge) {
+            @Value("${data.age.default.minutes:10}") final int defaultMaxDataAge) {
         this.scopeService = scopeService;
         this.defaultMaxDataAge = defaultMaxDataAge;
     }

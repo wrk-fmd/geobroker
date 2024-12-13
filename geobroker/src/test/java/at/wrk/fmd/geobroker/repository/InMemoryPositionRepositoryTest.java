@@ -17,9 +17,9 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
-import static com.github.npathai.hamcrestopt.OptionalMatchers.hasValue;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isEmpty;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresent;
+import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresentAnd;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -41,7 +41,7 @@ class InMemoryPositionRepositoryTest {
         sut.storePosition(unitId, position);
 
         Optional<Position> storedPosition = sut.getPosition(unitId);
-        assertThat(storedPosition, hasValue(equalTo(position)));
+        assertThat(storedPosition, isPresentAnd(equalTo(position)));
     }
 
     @Test
@@ -55,7 +55,7 @@ class InMemoryPositionRepositoryTest {
         sut.storePosition(unitId, updatedPosition);
 
         Optional<Position> storedPosition = sut.getPosition(unitId);
-        assertThat("Newer position update shall be stored.", storedPosition, hasValue(equalTo(updatedPosition)));
+        assertThat("Newer position update shall be stored.", storedPosition, isPresentAnd(equalTo(updatedPosition)));
     }
 
     @Test
@@ -69,7 +69,7 @@ class InMemoryPositionRepositoryTest {
         sut.storePosition(unitId, updatedPosition);
 
         Optional<Position> storedPosition = sut.getPosition(unitId);
-        assertThat("Outdated position update shall NOT be stored.", storedPosition, hasValue(equalTo(position)));
+        assertThat("Outdated position update shall NOT be stored.", storedPosition, isPresentAnd(equalTo(position)));
     }
 
     @Test

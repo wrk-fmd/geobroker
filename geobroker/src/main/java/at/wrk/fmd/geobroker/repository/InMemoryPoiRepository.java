@@ -7,7 +7,6 @@
 package at.wrk.fmd.geobroker.repository;
 
 import at.wrk.fmd.geobroker.contract.poi.PointOfInterest;
-import com.google.common.collect.ImmutableSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -55,6 +54,6 @@ public class InMemoryPoiRepository implements PoiRepository {
 
     @Override
     public Set<PointOfInterest> getAll() {
-        return ImmutableSet.copyOf(storage.values());
+        return Set.copyOf(storage.values());
     }
 }
