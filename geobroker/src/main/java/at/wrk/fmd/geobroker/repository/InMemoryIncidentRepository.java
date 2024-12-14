@@ -7,7 +7,6 @@
 package at.wrk.fmd.geobroker.repository;
 
 import at.wrk.fmd.geobroker.contract.incident.Incident;
-import com.google.common.collect.ImmutableSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -55,6 +54,6 @@ public class InMemoryIncidentRepository implements IncidentRepository {
 
     @Override
     public Set<Incident> getAll() {
-        return ImmutableSet.copyOf(storage.values());
+        return Set.copyOf(storage.values());
     }
 }

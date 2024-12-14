@@ -10,13 +10,13 @@ import at.wrk.fmd.geobroker.contract.scope.ScopeResponse;
 import at.wrk.fmd.geobroker.contract.unit.ConfiguredUnit;
 import at.wrk.fmd.geobroker.contract.unit.GetAllUnitsResponse;
 import at.wrk.fmd.geobroker.util.Positions;
-import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.time.Instant;
+import java.util.List;
 
 import static at.wrk.fmd.geobroker.integration.UrlHelper.privateApiUrl;
 import static at.wrk.fmd.geobroker.integration.UrlHelper.publicApiUrl;
@@ -58,7 +58,7 @@ class UnitIntegrationTest extends AbstractRestIntegrationTest {
         createConfiguredUnit(referencedUnitId1, token);
         createConfiguredUnit(referencedUnitId2, token);
 
-        ConfiguredUnit configuredUnit = randomUnit(unitId, token, ImmutableList.of(referencedUnitId1, referencedUnitId2));
+        ConfiguredUnit configuredUnit = randomUnit(unitId, token, List.of(referencedUnitId1, referencedUnitId2));
         restTemplate.put(privateApiUrl("/units/" + unitId), configuredUnit);
 
         postPositionUpdate(unitId, token, Positions.random());
@@ -88,7 +88,7 @@ class UnitIntegrationTest extends AbstractRestIntegrationTest {
         String unitId = "test-unit-0";
         String token = "access token";
 
-        ConfiguredUnit configuredUnit = randomUnit(unitId, token, ImmutableList.of());
+        ConfiguredUnit configuredUnit = randomUnit(unitId, token, List.of());
         restTemplate.put(privateApiUrl("/units/" + unitId), configuredUnit);
 
         ScopeResponse response = getScopeForUnit(unitId, token);
@@ -96,24 +96,9 @@ class UnitIntegrationTest extends AbstractRestIntegrationTest {
     }
 
     private FakePosition createInvalidPosition() {
-        return new FakePosition(RandomUtils.nextDouble(5, 20), Instant.now());
+        return new FakePosition(RandomUtils.insecure().randomDouble(5, 20), Instant.now());
     }
 
-    private static class FakePosition {
-        private final double latitude;
-        private final Instant timestamp;
-
-        private FakePosition(final double latitude, final Instant timestamp) {
-            this.latitude = latitude;
-            this.timestamp = timestamp;
-        }
-
-        public double getLatitude() {
-            return latitude;
-        }
-
-        public Instant getTimestamp() {
-            return timestamp;
-        }
+    private record FakePosition(double latitude, Instant timestamp) {
     }
 }
