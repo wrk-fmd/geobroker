@@ -13,7 +13,7 @@ The full documentation of the API can be found in the [Swagger UI YAML file](geo
 * Run following command to start the latest Geobroker image:
 
 ```shell
-docker run -d --rm -p 127.0.0.1:<PORT_TO_RUN_ON>:8080 --env-file geobroker.env --name geobroker robow/geobroker
+docker run -d --rm -p 127.0.0.1:<PORT_TO_RUN_ON>:8080 --env-file geobroker.env --name geobroker wrkfmdit/geobroker
 ```
 
 ## Build

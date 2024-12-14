@@ -5,7 +5,7 @@ This is a guide to waive the installation of dependencies and using docker inste
 Inspect the scripts in this directory for the actual shell commands.
 
 For a pre-built docker image you can also run:
-`docker run -it --rm -p 127.0.0.1:8080:8080 robow/geobroker` for the latest build on Docker Hub.
+`docker run -it --rm -p 127.0.0.1:8080:8080 wrkfmdit/geobroker` for the latest build on Docker Hub.
 
 ## Requirements
 
