@@ -6,7 +6,7 @@
 
     <groupId>at.wrk.fmd</groupId>
     <artifactId>geobroker</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.0.1</version>
     <packaging>war</packaging>
     <name>GeoBroker</name>
     <description>GeoBroker Server for CoCeSo</description>
