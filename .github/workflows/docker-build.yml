@@ -43,7 +43,11 @@ jobs:
 
       - name: Extract Maven project version
         working-directory: geobroker
-        run: echo "VERSION=`mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec`" | sed "s/SNAPSHOT/`date +%Y%m%d%H%M%S`/" >> $GITHUB_OUTPUT
+        run: >- 
+          echo "VERSION=`mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec`"
+          | sed "s/SNAPSHOT/`date +%Y%m%d%H%M%S`/" >> $GITHUB_OUTPUT;
+          echo "VERSION_ORIG=`mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec`"
+          >> $GITHUB_OUTPUT
         id: version-extraction
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -59,7 +63,6 @@ jobs:
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
-        if: ${{ !endsWith(steps.version-extraction.outputs.VERSION, '-SNAPSHOT') }}
         with:
           context: ./geobroker
           push: true
@@ -67,8 +70,16 @@ jobs:
 
       - name: Tag as latest on releases
         uses: docker/build-push-action@v5
-        if: ${{ !endsWith(steps.version-extraction.outputs.VERSION, '-SNAPSHOT') }}
+        if: ${{ !endsWith(steps.version-extraction.outputs.VERSION_ORIG, '-SNAPSHOT') }}
         with:
           context: ./geobroker
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/geobroker:latest
+
+      - name: Tag as latest snapshot on snapshot builds
+        uses: docker/build-push-action@v5
+        if: ${{ endsWith(steps.version-extraction.outputs.VERSION_ORIG, '-SNAPSHOT') }}
+        with:
+          context: ./geobroker
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/geobroker:latest-snapshot
