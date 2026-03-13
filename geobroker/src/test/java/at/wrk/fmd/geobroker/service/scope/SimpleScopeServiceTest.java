@@ -7,6 +7,7 @@
 package at.wrk.fmd.geobroker.service.scope;
 
 import at.wrk.fmd.geobroker.contract.generic.OneTimeAction;
+import at.wrk.fmd.geobroker.contract.incident.DispatchIncident;
 import at.wrk.fmd.geobroker.contract.incident.Incident;
 import at.wrk.fmd.geobroker.contract.poi.GetAllPoisResponse;
 import at.wrk.fmd.geobroker.contract.poi.PointOfInterest;
@@ -19,7 +20,9 @@ import at.wrk.fmd.geobroker.repository.UnitRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -31,6 +34,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -41,14 +45,16 @@ class SimpleScopeServiceTest {
     private IncidentRepository incidentRepository;
     private PoiRepository poiRepository;
     private LiveUnitMapper mapper;
+    private DispatchIncidentMapper dispatchIncidentMapper;
 
     @BeforeEach
     void init() {
         mapper = mock(LiveUnitMapper.class);
+        dispatchIncidentMapper = mock(DispatchIncidentMapper.class);
         unitRepository = mock(UnitRepository.class);
         incidentRepository = mock(IncidentRepository.class);
         poiRepository = mock(PoiRepository.class);
-        sut = new SimpleScopeService(unitRepository, incidentRepository, poiRepository, mapper);
+        sut = new SimpleScopeService(unitRepository, incidentRepository, poiRepository, mapper, dispatchIncidentMapper);
     }
 
     @Test
@@ -94,6 +100,16 @@ class SimpleScopeServiceTest {
         LiveUnit ownLiveUnit = new LiveUnit("unit id", "Unit", null, null, null, true);
         LiveUnit referencedLiveUnit = new LiveUnit("ref unit", "Ref", null, null, null, false);
         Incident incident = new Incident("incident 1", "type", false, false, "info", null, null, null);
+        DispatchIncident dispatchIncident = new DispatchIncident(
+                "incident 1",
+                "type",
+                false,
+                false,
+                "info",
+                null,
+                null,
+                null,
+                Map.of());
 
         when(unitRepository.isTokenAuthorized(unitId, token)).thenReturn(true);
         when(unitRepository.getUnit(unitId)).thenReturn(Optional.of(ownConfiguredUnit));
@@ -102,12 +118,13 @@ class SimpleScopeServiceTest {
         when(mapper.map(ownConfiguredUnit, maximumDataAge)).thenReturn(ownLiveUnit);
         when(mapper.map(referencedConfiguredUnit, maximumDataAge)).thenReturn(referencedLiveUnit);
         when(incidentRepository.getIncident("incident 1")).thenReturn(Optional.of(incident));
+        when(dispatchIncidentMapper.map(anyList(), anyList())).thenReturn(List.of(dispatchIncident));
 
         Optional<ScopeResponse> scopeForUnit = sut.getScopeForUnit(unitId, token, maximumDataAge);
 
         ScopeResponse expectedScope = new ScopeResponse(
                 List.of(ownLiveUnit, referencedLiveUnit),
-                List.of(incident),
+                List.of(dispatchIncident),
                 ownConfiguredUnit.getAvailableOneTimeActions());
         assertThat(scopeForUnit, isPresentAnd(samePropertyValuesAs(expectedScope)));
     }

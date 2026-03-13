@@ -32,17 +32,20 @@ public class SimpleScopeService implements ScopeService {
     private final IncidentRepository incidentRepository;
     private final PoiRepository poiRepository;
     private final LiveUnitMapper liveUnitMapper;
+    private final DispatchIncidentMapper dispatchIncidentMapper;
 
     @Autowired
     public SimpleScopeService(
             final UnitRepository unitRepository,
             final IncidentRepository incidentRepository,
             final PoiRepository poiRepository,
-            final LiveUnitMapper liveUnitMapper) {
+            final LiveUnitMapper liveUnitMapper,
+            final DispatchIncidentMapper dispatchIncidentMapper) {
         this.unitRepository = unitRepository;
         this.incidentRepository = incidentRepository;
         this.poiRepository = poiRepository;
         this.liveUnitMapper = liveUnitMapper;
+        this.dispatchIncidentMapper = dispatchIncidentMapper;
     }
 
     @Override
@@ -69,7 +72,8 @@ public class SimpleScopeService implements ScopeService {
                         .map(Optional::get)
                         .collect(Collectors.toList());
 
-                response = Optional.of(new ScopeResponse(liveUnits, incidents, ownConfiguredUnit.getAvailableOneTimeActions()));
+                List<Incident> dispatchIncidents = dispatchIncidentMapper.map(incidents, liveUnits);
+                response = Optional.of(new ScopeResponse(liveUnits, dispatchIncidents, ownConfiguredUnit.getAvailableOneTimeActions()));
             }
         }
 
