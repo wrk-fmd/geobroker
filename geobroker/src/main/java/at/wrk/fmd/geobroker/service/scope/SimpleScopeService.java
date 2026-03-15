@@ -31,18 +31,21 @@ public class SimpleScopeService implements ScopeService {
     private final UnitRepository unitRepository;
     private final IncidentRepository incidentRepository;
     private final PoiRepository poiRepository;
-    private final LiveUnitMapper mapper;
+    private final LiveUnitMapper liveUnitMapper;
+    private final DispatchIncidentMapper dispatchIncidentMapper;
 
     @Autowired
     public SimpleScopeService(
             final UnitRepository unitRepository,
             final IncidentRepository incidentRepository,
             final PoiRepository poiRepository,
-            final LiveUnitMapper mapper) {
+            final LiveUnitMapper liveUnitMapper,
+            final DispatchIncidentMapper dispatchIncidentMapper) {
         this.unitRepository = unitRepository;
         this.incidentRepository = incidentRepository;
         this.poiRepository = poiRepository;
-        this.mapper = mapper;
+        this.liveUnitMapper = liveUnitMapper;
+        this.dispatchIncidentMapper = dispatchIncidentMapper;
     }
 
     @Override
@@ -52,13 +55,13 @@ public class SimpleScopeService implements ScopeService {
             Optional<ConfiguredUnit> unit = unitRepository.getUnit(unitId);
             if (unit.isPresent()) {
                 ConfiguredUnit ownConfiguredUnit = unit.get();
-                LiveUnit ownLiveUnit = mapper.map(ownConfiguredUnit, maximumDataAge);
+                LiveUnit ownLiveUnit = liveUnitMapper.map(ownConfiguredUnit, maximumDataAge);
                 List<LiveUnit> referencedLiveUnits = ownConfiguredUnit.getUnits()
                         .stream()
                         .map(unitRepository::getUnit)
                         .filter(Optional::isPresent)
                         .map(Optional::get)
-                        .map(configuredUnit -> mapper.map(configuredUnit, maximumDataAge))
+                        .map(configuredUnit -> liveUnitMapper.map(configuredUnit, maximumDataAge))
                         .collect(Collectors.toList());
                 List<LiveUnit> liveUnits = mergeToList(ownLiveUnit, referencedLiveUnits);
 
@@ -69,7 +72,8 @@ public class SimpleScopeService implements ScopeService {
                         .map(Optional::get)
                         .collect(Collectors.toList());
 
-                response = Optional.of(new ScopeResponse(liveUnits, incidents, ownConfiguredUnit.getAvailableOneTimeActions()));
+                List<Incident> dispatchIncidents = dispatchIncidentMapper.map(incidents, liveUnits);
+                response = Optional.of(new ScopeResponse(liveUnits, dispatchIncidents, ownConfiguredUnit.getAvailableOneTimeActions()));
             }
         }
 

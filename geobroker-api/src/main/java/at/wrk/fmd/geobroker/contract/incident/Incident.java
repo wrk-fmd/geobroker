@@ -27,6 +27,9 @@ public class Incident implements Serializable {
     private final String info;
     private final Point location;
     private final Point destination;
+    /**
+     * Contains a map of unitId to current status of the assigned units.
+     */
     private final Map<String, String> assignedUnits;
 
     public Incident(
